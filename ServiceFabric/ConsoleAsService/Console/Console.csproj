@@ -74,6 +74,7 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Content Include="PackageRoot\AnyOtherFilesYouNeed\Bitmap1.bmp" />
     <Content Include="PackageRoot\Code\MySetup.exe" />
     <Content Include="PackageRoot\Code\MySetup.pdb" />
   </ItemGroup>
