@@ -24,7 +24,7 @@ namespace GuestBook_Data
 
         private static string m_TblName = "TGuestBook";
 
-     
+      
         static TblStorageSamples()
         {
             m_AccKey = ConfigurationManager.AppSettings["AccountKey"];
