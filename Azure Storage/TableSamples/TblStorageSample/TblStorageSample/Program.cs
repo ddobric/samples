@@ -51,7 +51,7 @@ namespace TblStorageSample
             var entries = queryTableStorage();
 
             updateEntry(entries.First());
-        }
+         }
 
         private static void loadAllEntries(TblStorageSamples ds)
         {
