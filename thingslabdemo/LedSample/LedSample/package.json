@@ -1,0 +1,14 @@
+{
+  "name": "LedSample",
+  "version": "0.0.0",
+  "description": "LedSample",
+  "main": "app.js",
+  "author": {
+    "name": "ddobric",
+    "email": ""
+  },
+  "dependencies": {
+    "johnny-five": "latest" 
+  }
+}
+
