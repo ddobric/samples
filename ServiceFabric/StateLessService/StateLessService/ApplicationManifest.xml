@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ApplicationManifest xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ApplicationTypeName="StateLessServiceType" ApplicationTypeVersion="1.0.0" xmlns="http://schemas.microsoft.com/2011/01/fabric">
+   <Parameters>
+      <Parameter Name="StatelessSvc2_InstanceCount" DefaultValue="-1" />
+      <Parameter Name="StatelessSvc_InstanceCount" DefaultValue="-1" />
+      <Parameter Name="QueueName" DefaultValue="appmanifest_defaultqueue" />
+   </Parameters>
+   <ServiceManifestImport>
+      <ServiceManifestRef ServiceManifestName="StatelessSvc2Pkg" ServiceManifestVersion="1.0.0" />
+      <ConfigOverrides />
+   </ServiceManifestImport>
+   <ServiceManifestImport>
+      <ServiceManifestRef ServiceManifestName="StatelessSvcPkg" ServiceManifestVersion="1.0.0" />
+      <ConfigOverrides>
+         <ConfigOverride Name="Config">
+            <Settings>
+               <Section Name="SbConfigSection">
+                  <Parameter Name="QueueName" Value="[QueueName]" />
+               </Section>
+            </Settings>
+         </ConfigOverride>
+      </ConfigOverrides>
+   </ServiceManifestImport>
+   <DefaultServices>
+      <Service Name="StatelessSvc2">
+         <StatelessService ServiceTypeName="StatelessSvc2Type" InstanceCount="[StatelessSvc2_InstanceCount]">
+            <SingletonPartition />
+         </StatelessService>
+      </Service>
+      <Service Name="StatelessSvc">
+         <StatelessService ServiceTypeName="StatelessSvcType" InstanceCount="[StatelessSvc_InstanceCount]">
+            <SingletonPartition />
+         </StatelessService>
+      </Service>
+   </DefaultServices>
+</ApplicationManifest>

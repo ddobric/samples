@@ -12,6 +12,10 @@ using System.Threading.Tasks;
 
 namespace BlobSamples
 {
+    /// <summary>
+    /// Containms useful examples, which demonstrates how to
+    /// work with Blob Storage.
+    /// </summary>
     class Program
     {
         private static string cFile = "SampleDoc.docx";
@@ -25,6 +29,11 @@ namespace BlobSamples
 
         private const string cProductiveContainerUriFormat = "https://{0}.blob.core.windows.net/{1}";
 
+
+        /// <summary>
+        /// Shows few examples how to work with blob storage.
+        /// </summary>
+        /// <param name="args">Not used.</param>
         static void Main(string[] args)
         {
             m_AccKey = ConfigurationManager.AppSettings["AccountKey"];
@@ -45,8 +54,13 @@ namespace BlobSamples
             blobSasDemo();
         }
 
+
+        /// <summary>
+        /// Creates SAS signature for blob.
+        /// </summary>
         private static void blobSasDemo()
         {
+            // Creates SAS token
             var uri = getBlobSasUri();
 
             CloudBlobClient client = new CloudBlobClient(new Uri(uri));
@@ -66,6 +80,10 @@ namespace BlobSamples
             return storageAccount;
         }
 
+
+        /// <summary>
+        /// Method which demonstrates how to create and delete containers.
+        /// </summary>
         private static void manageContainers()
         {
             CloudStorageAccount storageAccount = getAccount();
@@ -423,20 +441,27 @@ namespace BlobSamples
         }
 
 
+        /// <summary>
+        /// Shows how to create SAS token.
+        /// </summary>
+        /// <returns></returns>
         private static string getBlobSasUri()
         {
+            // Gets a reference to a blob.
             var cloudBlobRef = getBlob();
 
-            //Set the expiry time and permissions for the container.
-            //In this case no start time is specified, so the shared access signature becomes valid immediately.
+            // Set the expiry time and permissions for the container.
+            // In this case no start time is specified, so the shared access signature becomes valid immediately.
             SharedAccessBlobPolicy sasConstraints = new SharedAccessBlobPolicy();
             sasConstraints.SharedAccessExpiryTime = DateTime.UtcNow.AddHours(4);
+
+            // Here we set read access.
             sasConstraints.Permissions = SharedAccessBlobPermissions.Read;
 
-            //Generate the shared access signature on the container, setting the constraints directly on the signature.
+            // Generate the shared access signature on the container, setting the constraints directly on the signature.
             string sasContainerToken = cloudBlobRef.GetSharedAccessSignature(sasConstraints);
 
-            //Return the URI string for the container, including the SAS token.
+            // Return the URI string for the container, including the SAS token.
             return cloudBlobRef.Uri + sasContainerToken;
         }
     }

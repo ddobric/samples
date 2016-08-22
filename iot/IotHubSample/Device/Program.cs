@@ -21,7 +21,7 @@ namespace Device
             string connStr = ConfigurationManager.AppSettings["IotHub.DeviceConnStr"];
             string deviceId = ConfigurationManager.AppSettings["IotHub.DeviceId"];
 
-            m_DeviceClient = DeviceClient.CreateFromConnectionString(connStr, deviceId);
+            m_DeviceClient = DeviceClient.CreateFromConnectionString(connStr, deviceId,);
 
             //Start_SendingMessagesToCloud();
 

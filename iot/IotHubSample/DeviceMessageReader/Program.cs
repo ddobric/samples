@@ -43,6 +43,7 @@ namespace DeviceMessageReader
         private async static Task ReceiveMessagesFromDeviceAsync(string partition)
         {
             var eventHubReceiver = eventHubClient.GetDefaultConsumerGroup().CreateReceiver(partition, DateTime.Now);
+            
             while (true)
             {
                 EventData eventData = await eventHubReceiver.ReceiveAsync();
@@ -78,12 +79,14 @@ namespace DeviceMessageReader
 
         private static void writeAcceleretorDataToFile(dynamic obj)
         {
-            string line = String.Format("{0},{1},{2},{3}", obj.x, obj.y, obj.z, obj.ts);
+            DateTimeOffset t = (DateTimeOffset)obj.ts;
+            string time = String.Format("{0}/{1}/{2} {3}:{4}:{5} {6}", t.Year,t.Month,t.Day, t.Hour,t.Minute,t.Second,t.Millisecond );
+            string line = String.Format("{0},{1},{2},{3}", obj.x, obj.y, obj.z, time);
 
             DateTimeOffset eTime = (DateTimeOffset)obj.ts;
             DateTime now = DateTime.Now;
 
-            return;
+            //return;
 
             lock (":)")
             {

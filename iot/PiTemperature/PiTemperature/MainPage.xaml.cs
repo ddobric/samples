@@ -50,11 +50,11 @@ namespace PiTemperature
                 m_Writer = new EventHubWriter();
 
                 await m_Writer.Open(new Dictionary<string, object>() {
-                { "Namespace", "" },
-                { "DeviceId", "" },
-                { "Key", "" },
-                { "KeyName", "" },
-                { "Hub", "" },
+                { "Namespace", "studentprojects" },
+                { "DeviceId", "dev01" },
+                { "Key", "CicouVjHjl7g5S/y/ViMRSjGU29eCyNaKBAklfT+QvU=" },
+                { "KeyName", "devicesend" },
+                { "Hub", "msbandaccelerator" },
             });
 
                 await initLed(gpioCtrl);
