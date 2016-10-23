@@ -3,6 +3,9 @@ using Microsoft.ServiceFabric.Services.Communication.Runtime;
 using Microsoft.ServiceFabric.Services.Runtime;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Fabric;
+using System.Fabric.Description;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -16,16 +19,37 @@ namespace VotingService
     /// </summary>
     internal sealed class VotingService : StatefulService
     {
+        public VotingService(StatefulServiceContext context)
+            : base(context)
+        { }
+
+
         /// <summary>
-        /// Optional override to create listeners (like tcp, http) for this service replica.
+        /// Optional override to create listeners (e.g., HTTP, Service Remoting, WCF, etc.) for this service replica to handle client or user requests.
         /// </summary>
-        /// <returns>The collection of listeners.</returns>
+        /// <remarks>
+        /// For more information on service communication, see https://aka.ms/servicefabricservicecommunication
+        /// </remarks>
+        /// <returns>A collection of listeners.</returns>
         protected override IEnumerable<ServiceReplicaListener> CreateServiceReplicaListeners()
         {
-            return new ServiceReplicaListener[] { new ServiceReplicaListener(p => new HttpCommunicationListener(p, "ServiceEndpoint", ProcessRequestAsync)) };
+            //   "Message": "Tcp://+:20002/907db591-b0b1-4342-b91b-d63e6350ae64/131216327628253690-bc15dfce-5cf4-4d60-ae79-a7d98670d934/",
+
+            EndpointResourceDescription internalEndpoint = Context.CodePackageActivationContext.GetEndpoint("ServiceEndpoint");
+            var uriPrefix = $"https://+:{internalEndpoint.Port}/"
+               + $"{Context.PartitionId}/{Context.ReplicaId}"
+               + $"-{Guid.NewGuid()}/";   // Uniqueness
+
+            ServiceEventSource.Current.ServiceMessage(this, uriPrefix);
+
+            Debug.WriteLine(uriPrefix);
+
+            return new ServiceReplicaListener[]
+         { new ServiceReplicaListener(p => new HttpCommunicationListener(p, "ServiceEndpoint", processRequest)) };
         }
 
-        private async Task ProcessRequestAsync(HttpListenerContext context, CancellationToken ct)
+
+        private async Task processRequest(HttpListenerContext context, CancellationToken cancelationToken)
         {
             String output = null;
             try
@@ -51,7 +75,7 @@ namespace VotingService
                     using (var tx = this.StateManager.CreateTransaction())
                     {
                         var voteDictionary = await this.StateManager.GetOrAddAsync<IReliableDictionary<string, long>>("myDictionary");
-                        
+
                         var keyPair = await voteDictionary.TryGetValueAsync(tx, voteItem, LockMode.Default);
                         if (!keyPair.HasValue)
                         {
@@ -61,14 +85,24 @@ namespace VotingService
                         {
                             var res = await voteDictionary.TryUpdateAsync(tx, voteItem, keyPair.Value + 1, keyPair.Value);
                         }
-                        
+
                         // The code below prepares the HTML response. It gets all the current
                         // vote items (and counts) and separates each with a break (<br>)
-                        var votingItems = from kvp in await voteDictionary.CreateEnumerableAsync(tx)
-                                       orderby kvp.Key    // Intentionally commented out
-                                   select $"Item={kvp.Key}, Votes={kvp.Value}";
+                        //var votingItems = from kvp in await voteDictionary.CreateEnumerableAsync(tx)
+                        //                  orderby kvp.Key    // Intentionally commented out
+                        //                  select $"Item={kvp.Key}, Votes={kvp.Value}";
 
-                        output = String.Join("<br>", votingItems);
+                        var votingItems = await voteDictionary.CreateEnumerableAsync(tx);
+                        var enumerator = votingItems.GetAsyncEnumerator();
+
+                        StringBuilder sb = new StringBuilder();
+
+                        while (await enumerator.MoveNextAsync(cancelationToken))
+                        {
+                            sb.Append($"{enumerator.Current.Key} - Votes: {enumerator.Current.Value}<br/>");
+                        }
+
+                        output = sb.ToString();
 
                         await tx.CommitAsync();
                     }
@@ -89,6 +123,7 @@ namespace VotingService
                 }
             }
         }
+
 
         /*
         /// <summary>

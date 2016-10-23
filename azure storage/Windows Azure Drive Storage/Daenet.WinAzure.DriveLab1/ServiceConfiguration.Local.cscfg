@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ServiceConfiguration serviceName="Daenet.WinAzure.DriveLab1" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceConfiguration" osFamily="1" osVersion="*" schemaVersion="2012-10.1.8">
+  <Role name="WebRole1">
+    <Instances count="1" />
+    <ConfigurationSettings>
+      <Setting name="DriveUri" value="documents/drive.vhd" />
+      <Setting name="CloudStorageAccount" value="UseDevelopmentStorage=true" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.Enabled" value="true" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountUsername" value="ddobric" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountEncryptedPassword" value="MIIBnQYJKoZIhvcNAQcDoIIBjjCCAYoCAQAxggFOMIIBSgIBADAyMB4xHDAaBgNVBAMME1dpbmRvd3MgQXp1cmUgVG9vbHMCEGVEG9jd7r21SDeie8oEQ88wDQYJKoZIhvcNAQEBBQAEggEAfLVVZjay335Y+3/2WVI9eHPZOwYdK5B/sy63kdvUA+/Au26oceQw6LjPalMpOw5DcfxCQBXSoY8b9CcpqJmW5f7P6VMqojJVG/zZTJnk6Ns038obH3gthkhzs3QmfJrbkI8RMYILeyLzjjnH3QjxMcnck3121FK9Pzlty4cqWTuPJ7R5g1n9KVPIQYE8CTbPGrPghN1Bwq0L8/9l7QbZTwti9amy0KfYvTcjxWTz0GxHnlW34zHMnuLvhirv/EDJrrmS5gWwqJILJLMXNctwV0z6yALfy4rQO227xjgsfJNkyD7DvXu/zwtKdtZKVJ0SEj1/r4n2XEn7f/KjJuRtVjAzBgkqhkiG9w0BBwEwFAYIKoZIhvcNAwcECGbuyOePsZc2gBDsZhf43vl/6RoD8WxVZOJI" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountExpiration" value="2013-01-04T23:59:59.0000000+01:00" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteForwarder.Enabled" value="true" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="DefaultEndpointsProtocol=https;AccountName=daenet01;AccountKey=iVDxtngI2PYqQG+/9+tr6saIZ+l5JxCacRxK1AzmQI7XyHssvH2e7qfXx6CZSTHtJ7pYMLzY3PxZ627zvLiIAw==" />
+    </ConfigurationSettings>
+    <Certificates>
+      <Certificate name="Microsoft.WindowsAzure.Plugins.RemoteAccess.PasswordEncryption" thumbprint="BDDE45BE6CFF1297A46DD2087578319D90B61151" thumbprintAlgorithm="sha1" />
+    </Certificates>
+  </Role>
+</ServiceConfiguration>

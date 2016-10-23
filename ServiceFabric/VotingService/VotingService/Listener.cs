@@ -16,7 +16,7 @@ namespace VotingService
         private readonly Func<HttpListenerContext, CancellationToken, Task> m_ProcessRequestFunc;
         private readonly CancellationTokenSource m_processRequestsCancellation = new CancellationTokenSource();
 
-        public HttpCommunicationListener(StatefulServiceInitializationParameters args, string endpointName,
+        public HttpCommunicationListener(StatefulServiceContext args, string endpointName,
             Func<HttpListenerContext, CancellationToken, Task> processRequestFunc)
         {
             m_ProcessRequestFunc = processRequestFunc;

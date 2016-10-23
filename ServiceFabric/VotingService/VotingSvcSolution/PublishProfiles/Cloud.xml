@@ -15,9 +15,9 @@
                                     StoreLocation="CurrentUser"
                                     StoreName="My" />
   -->
-  <ClusterConnectionParameters ConnectionEndpoint="10.0.0.6:19000" />
-  <ApplicationParameterFile Path="..\ApplicationParameters\Local.xml" />
-  <UpgradeDeployment Mode="Monitored" Enabled="true">
+  <ClusterConnectionParameters />
+  <ApplicationParameterFile Path="..\ApplicationParameters\Local.1Node.xml" />
+  <UpgradeDeployment Mode="Monitored" Enabled="false">
     <Parameters FailureAction="Rollback" Force="True" />
   </UpgradeDeployment>
 </PublishProfile>

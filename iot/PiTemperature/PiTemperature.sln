@@ -1,0 +1,50 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PiTemperature", "PiTemperature\PiTemperature.csproj", "{FD536CA9-F32E-456E-8241-78CB85A38E58}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Assemblies", "Assemblies", "{66A7AE49-685E-49E7-8A6E-7DE47BD923F0}"
+	ProjectSection(SolutionItems) = preProject
+		Assembly\IotHub.Amqp.dll = Assembly\IotHub.Amqp.dll
+		Assembly\IotHub.Amqp.pdb = Assembly\IotHub.Amqp.pdb
+		Assembly\IotHub.Core.dll = Assembly\IotHub.Core.dll
+		Assembly\IotHub.Core.pdb = Assembly\IotHub.Core.pdb
+		Assembly\IotHub.Http.dll = Assembly\IotHub.Http.dll
+		Assembly\IotHub.Http.pdb = Assembly\IotHub.Http.pdb
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|ARM = Debug|ARM
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|ARM = Release|ARM
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FD536CA9-F32E-456E-8241-78CB85A38E58}.Debug|ARM.ActiveCfg = Debug|ARM
+		{FD536CA9-F32E-456E-8241-78CB85A38E58}.Debug|ARM.Build.0 = Debug|ARM
+		{FD536CA9-F32E-456E-8241-78CB85A38E58}.Debug|ARM.Deploy.0 = Debug|ARM
+		{FD536CA9-F32E-456E-8241-78CB85A38E58}.Debug|x64.ActiveCfg = Debug|x64
+		{FD536CA9-F32E-456E-8241-78CB85A38E58}.Debug|x64.Build.0 = Debug|x64
+		{FD536CA9-F32E-456E-8241-78CB85A38E58}.Debug|x64.Deploy.0 = Debug|x64
+		{FD536CA9-F32E-456E-8241-78CB85A38E58}.Debug|x86.ActiveCfg = Debug|x86
+		{FD536CA9-F32E-456E-8241-78CB85A38E58}.Debug|x86.Build.0 = Debug|x86
+		{FD536CA9-F32E-456E-8241-78CB85A38E58}.Debug|x86.Deploy.0 = Debug|x86
+		{FD536CA9-F32E-456E-8241-78CB85A38E58}.Release|ARM.ActiveCfg = Release|ARM
+		{FD536CA9-F32E-456E-8241-78CB85A38E58}.Release|ARM.Build.0 = Release|ARM
+		{FD536CA9-F32E-456E-8241-78CB85A38E58}.Release|ARM.Deploy.0 = Release|ARM
+		{FD536CA9-F32E-456E-8241-78CB85A38E58}.Release|x64.ActiveCfg = Release|x64
+		{FD536CA9-F32E-456E-8241-78CB85A38E58}.Release|x64.Build.0 = Release|x64
+		{FD536CA9-F32E-456E-8241-78CB85A38E58}.Release|x64.Deploy.0 = Release|x64
+		{FD536CA9-F32E-456E-8241-78CB85A38E58}.Release|x86.ActiveCfg = Release|x86
+		{FD536CA9-F32E-456E-8241-78CB85A38E58}.Release|x86.Build.0 = Release|x86
+		{FD536CA9-F32E-456E-8241-78CB85A38E58}.Release|x86.Deploy.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

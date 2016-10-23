@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{A07B5EB6-E848-4116-A8D0-A826331D98C6}") = "VotingSvcSolution", "VotingSvcSolution\VotingSvcSolution.sfproj", "{8DFE082E-3998-4036-948D-32F28B766332}"
 EndProject
@@ -18,6 +18,8 @@ Global
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{8DFE082E-3998-4036-948D-32F28B766332}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{8DFE082E-3998-4036-948D-32F28B766332}.Debug|Any CPU.Build.0 = Debug|x64
+		{8DFE082E-3998-4036-948D-32F28B766332}.Debug|Any CPU.Deploy.0 = Debug|x64
 		{8DFE082E-3998-4036-948D-32F28B766332}.Debug|x64.ActiveCfg = Debug|x64
 		{8DFE082E-3998-4036-948D-32F28B766332}.Debug|x64.Build.0 = Debug|x64
 		{8DFE082E-3998-4036-948D-32F28B766332}.Debug|x64.Deploy.0 = Debug|x64
@@ -26,6 +28,7 @@ Global
 		{8DFE082E-3998-4036-948D-32F28B766332}.Release|x64.Build.0 = Release|x64
 		{8DFE082E-3998-4036-948D-32F28B766332}.Release|x64.Deploy.0 = Release|x64
 		{73997024-CE0A-42AA-9E59-64A28A7C6C57}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{73997024-CE0A-42AA-9E59-64A28A7C6C57}.Debug|Any CPU.Build.0 = Debug|x64
 		{73997024-CE0A-42AA-9E59-64A28A7C6C57}.Debug|x64.ActiveCfg = Debug|x64
 		{73997024-CE0A-42AA-9E59-64A28A7C6C57}.Debug|x64.Build.0 = Debug|x64
 		{73997024-CE0A-42AA-9E59-64A28A7C6C57}.Release|Any CPU.ActiveCfg = Release|x64

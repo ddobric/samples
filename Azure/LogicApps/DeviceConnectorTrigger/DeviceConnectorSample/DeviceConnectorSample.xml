@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>DeviceConnectorSample</name>
+    </assembly>
+    <members>
+        <member name="M:DeviceConnectorSample.Controllers.DeviceController.TelemetryDataPollTrigger(System.String,System.String,System.String)">
+            <summary>
+            Trigger operation for collecting of telemetry data.
+            </summary>
+            <param name="triggerState">mock if you do not have Service Bus connection string. Anything else will
+            collect telemetry data from service bus.</param>
+            <param name="sbConnStr">Service Bus connection string. Used only if triggerState not equql 'mock'.</param>
+            <param name="queuePath">The path of the queue where telemetry data are stored.</param>
+            <returns>List of telemetry data.</returns>
+        </member>
+    </members>
+</doc>

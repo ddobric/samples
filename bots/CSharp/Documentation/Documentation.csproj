@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="ExecDoxygen" InitialTargets="MessagesD">
+  <PropertyGroup>
+    <MyProgramFiles>$(ProgramW6432)</MyProgramFiles>
+    <MyProgramFiles Condition="$(MyProgramFiles) == ''">$(ProgramFiles)</MyProgramFiles>
+    <DoxygenExec>$(MyProgramFiles)\doxygen\bin\doxygen.exe</DoxygenExec>
+    <IsBuildingInTeamBuild Condition="'$(OutDir)' != ''">True</IsBuildingInTeamBuild>
+    <ConfigFileFullPath>$(MSBuildThisFileDirectory)Doxyfile</ConfigFileFullPath>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <ProjectGuid>{72C60ACB-4804-4584-AD49-00289A89F227}</ProjectGuid>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Documentation'">
+    <RunDoxygen>True</RunDoxygen>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+  <Target Name="ExecDoxygen" Condition="'$(Configuration)' == '' OR '$(RunDoxygen)' == 'True'">
+    <Message Text="Generating documentation files." />
+    <Exec WorkingDirectory="$(MSBuildThisFileDirectory)" Command="&quot;$(DoxygenExec)&quot; &quot;$(ConfigFileFullPath)&quot;" />
+    <Message Text="Documentation completed." />
+  </Target>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="Doxyfile" />
+    <None Include="doxygen.bat" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="botframework.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="customdoxygen-bootstrap.css" />
+    <Content Include="docs\html\index.html" />
+    <Content Include="DoxygenLayout.xml" />
+    <Content Include="Doxygen_ExtraStylesheet.css" />
+    <Content Include="Doxygen_Footerfile.html" />
+    <Content Include="footer.html" />
+    <Content Include="header.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="overview.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Library\Microsoft.Bot.Builder.csproj">
+      <Project>{cdfec7d6-847e-4c13-956b-0a960ae3eb60}</Project>
+      <Name>Microsoft.Bot.Builder</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="dialogs.cs" />
+    <Compile Include="forms.cs" />
+  </ItemGroup>
+  <Target Name="Clean">
+    <RemoveDir Directories="@(DirsToClean)" />
+  </Target>
+  <Target Name="MessagesD">
+    <Message Text="%24(Configuration) = %22$(Configuration)%22" />
+    <Message Text="%24(RunDoxygen) = %22$(RunDoxygen)%22" />
+    <Message Text="%24(ConfigFileFullPath) = %22$(ConfigFileFullPath)%22" />
+    <Message Text="%24(OutDir) = %22$(OutDir)%22" />
+  </Target>
+</Project>
