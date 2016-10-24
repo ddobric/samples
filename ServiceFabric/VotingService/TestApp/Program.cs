@@ -16,18 +16,20 @@ namespace TestApp
     {
         static void Main(string[] args)
         {
-            setupMetrics();
-            setupService();
+            //setupMetrics();
+            //setupService();
 
-            return;
-            CancellationTokenSource src = new CancellationTokenSource();
-            var resolver = ServicePartitionResolver.GetDefault();
+            traceAll();
+          
+            ////return;
+            //CancellationTokenSource src = new CancellationTokenSource();
+            //var resolver = ServicePartitionResolver.GetDefault();
+           
+            //var partKey = new ServicePartitionKey("262887c1-d67c-41da-a32f-0db2e8cf0e96");
 
-            var partKey = new ServicePartitionKey("262887c1-d67c-41da-a32f-0db2e8cf0e96");
-
-            resolver.ResolveAsync(new Uri("fabric:/VotingSvcSolution/VotingService"), 
-               partKey,
-                src.Token).Wait();
+            //resolver.ResolveAsync(new Uri("fabric:/VotingSvcSolution/VotingService"), 
+            //   partKey,
+            //    src.Token).Wait();
 
         }
 
@@ -97,25 +99,30 @@ namespace TestApp
                 </StatefulService> 
             */
 
-            for (int i = -1000; i < 1000; i++)
+            for (int i = 1; i < 6; i++)
             {
                 ServicePartitionInformation inf;
 
-                var url = getPartitionUrl(0, out inf);
+                var url = getPartitionUrl(i, out inf);
 
-                Console.WriteLine($"partitionId={inf.Id} Url:{url}");
+                Console.WriteLine($"paritionKey:{i}-\tpartitionId={inf.Id}\tUrl:{url}");
             }
         }
 
         private static string getPartitionUrl(long partitionKey, out ServicePartitionInformation info)
         {
+            var partKey = new ServicePartitionKey(partitionKey);
+
+            return getPartitionUrl(partKey, out info);
+        }
+
+        private static string getPartitionUrl(ServicePartitionKey partitionKey, out ServicePartitionInformation info)
+        {
             CancellationTokenSource src = new CancellationTokenSource();
 
             var resolver = ServicePartitionResolver.GetDefault();
 
-            var partKey = new ServicePartitionKey(partitionKey);
-
-            var partition = resolver.ResolveAsync(new Uri("fabric:/Voting/VotingService"), partKey, src.Token).Result;
+            var partition = resolver.ResolveAsync(new Uri("fabric:/VotingSvcSolution/VotingService"), partitionKey, src.Token).Result;
 
             var pEndpoint = partition.GetEndpoint();
 

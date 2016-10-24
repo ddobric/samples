@@ -23,21 +23,15 @@ namespace Console
                     }
                 }
 
-                bool r = false;
-
-                // Creating a FabricRuntime connects this host process to the Service Fabric runtime.
-              //  using (FabricRuntime fabricRuntime = FabricRuntime.Create())
+                while (true)
                 {
-                    int n = 10;
-                    while (true)
-                    {
-                        //if (n++ > 10)
-                        //    throw new Exception("Something bad happened!") ;
+                    //if (n++ > 10)
+                    //    throw new Exception("Something bad happened!") ;
 
-                        System.Console.WriteLine("Running at {0}", DateTime.Now );
-                        Thread.Sleep(1000);
-                    }
+                    System.Console.WriteLine("Running at {0}", DateTime.Now);
+                    Thread.Sleep(1000);
                 }
+
             }
             catch (Exception e)
             {

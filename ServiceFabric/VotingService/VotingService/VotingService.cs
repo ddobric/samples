@@ -57,25 +57,13 @@ namespace VotingService
                 // Grab the vote item string from a "Vote=" query string parameter
                 HttpListenerRequest request = context.Request;
                 String voteItem = request.QueryString["Vote"];
-                if (voteItem != null)
+
+                using (var tx = this.StateManager.CreateTransaction())
                 {
-                    // TODO: Here, following code is written by following steps in RunAsync() method, which 
-                    // you will comment out in this sample.
-                    // See the RunAsync method to help you with these steps.
+                    var voteDictionary = await this.StateManager.GetOrAddAsync<IReliableDictionary<string, long>>("myDictionary");
 
-                    // 1. Get a reference to a reliable dictionary using the 
-                    //    inherited StateManager. The dictionary should String keys
-                    //    and int values; Name the dictionary “Votes”
-
-                    // 2. Create a new transaction using the inherited StateManager
-
-                    // 3. Add the voteItem (with a count of 1) if it doesn’t already
-                    //    exist or increment its count if it does exist.
-
-                    using (var tx = this.StateManager.CreateTransaction())
-                    {
-                        var voteDictionary = await this.StateManager.GetOrAddAsync<IReliableDictionary<string, long>>("myDictionary");
-
+                    if (voteItem != null)
+                    {                      
                         var keyPair = await voteDictionary.TryGetValueAsync(tx, voteItem, LockMode.Default);
                         if (!keyPair.HasValue)
                         {
@@ -84,29 +72,32 @@ namespace VotingService
                         else
                         {
                             var res = await voteDictionary.TryUpdateAsync(tx, voteItem, keyPair.Value + 1, keyPair.Value);
-                        }
-
-                        // The code below prepares the HTML response. It gets all the current
-                        // vote items (and counts) and separates each with a break (<br>)
-                        //var votingItems = from kvp in await voteDictionary.CreateEnumerableAsync(tx)
-                        //                  orderby kvp.Key    // Intentionally commented out
-                        //                  select $"Item={kvp.Key}, Votes={kvp.Value}";
-
-                        var votingItems = await voteDictionary.CreateEnumerableAsync(tx);
-                        var enumerator = votingItems.GetAsyncEnumerator();
-
-                        StringBuilder sb = new StringBuilder();
-
-                        while (await enumerator.MoveNextAsync(cancelationToken))
-                        {
-                            sb.Append($"{enumerator.Current.Key} - Votes: {enumerator.Current.Value}<br/>");
-                        }
-
-                        output = sb.ToString();
-
-                        await tx.CommitAsync();
+                        }                        
                     }
+                  
+                    // Old SDK version!
+                    // The code below prepares the HTML response. It gets all the current
+                    // vote items (and counts) and separates each with a break (<br>)
+                    //var votingItems = from kvp in await voteDictionary.CreateEnumerableAsync(tx)
+                    //                  orderby kvp.Key    // Intentionally commented out
+                    //                  select $"Item={kvp.Key}, Votes={kvp.Value}";
+
+                    var votingItems = await voteDictionary.CreateEnumerableAsync(tx);
+                    var enumerator = votingItems.GetAsyncEnumerator();
+
+                    StringBuilder sb = new StringBuilder();
+
+                    while (await enumerator.MoveNextAsync(cancelationToken))
+                    {
+                        sb.Append($"{enumerator.Current.Key} - Votes: {enumerator.Current.Value}<br/>");
+                    }
+
+                    output = sb.ToString();
+
+                    await tx.CommitAsync();
                 }
+
+
             }
             catch (Exception ex)
             {

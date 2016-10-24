@@ -28,12 +28,12 @@ namespace Daenet.Owin
                 var tokens = cidr.Split('/');
                 if (tokens.Length == 2)
                 {
-                    int mask;
+                    int mask ;
                     if (int.TryParse(tokens[1], out mask))
                     {
                         mask = 32 - mask;
                         IPAddress netAddr = IPAddress.Parse(tokens[0]);
-                        for (int i = 0; i < mask; i++)
+                        for (int i = 0; i < Math.Pow(2, mask); i++)
                         {
                             long intAddress = (long)(uint)IPAddress.NetworkToHostOrder((int)BitConverter.ToInt32(netAddr.GetAddressBytes(),0));
                             addressCounter++;
