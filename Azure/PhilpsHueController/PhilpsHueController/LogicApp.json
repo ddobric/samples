@@ -1,0 +1,150 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "logicAppName": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80,
+      "metadata": {
+        "description": "Name of the Logic App."
+      }
+    },
+    "logicAppLocation": {
+      "type": "string",
+      "defaultValue": "[resourceGroup().location]",
+      "allowedValues": [
+        "eastasia",
+        "southeastasia",
+        "centralus",
+        "eastus",
+        "eastus2",
+        "westus",
+        "northcentralus",
+        "southcentralus",
+        "northeurope",
+        "westeurope",
+        "japanwest",
+        "japaneast",
+        "brazilsouth",
+        "australiaeast",
+        "australiasoutheast",
+        "westcentralus",
+        "westus2",
+        "[resourceGroup().location]"
+      ],
+      "metadata": {
+        "description": "Location of the Logic App."
+      }
+    },
+    "onedriveforbusiness_1_Connection_Name": {
+      "type": "string",
+      "defaultValue": "onedriveforbusiness"
+    },
+    "onedriveforbusiness_1_Connection_DisplayName": {
+      "type": "string",
+      "defaultValue": "ddobric@daenet.com"
+    }
+  },
+  "variables": {},
+  "resources": [
+    {
+      "name": "[parameters('logicAppName')]",
+      "type": "Microsoft.Logic/workflows",
+      "location": "[parameters('logicAppLocation')]",
+      "tags": {
+        "displayName": "LogicApp"
+      },
+      "apiVersion": "2016-06-01",
+      "properties": {
+        "definition": {
+          "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+          "actions": {
+            "HTTP": {
+              "type": "Http",
+              "inputs": {
+                "method": "POST",
+                "uri": "https://daenethub.azure-devices.net/twins/D001/methods/?api-version=2016-11-14",
+                "headers": {
+                  "Authorization": "SharedAccessSignature sr=daenethub.azure-devices.net&sig=ZgJIMJ7oefmo5crJqPIaPYxX3xuPse5SbzCyAKrc%2BDc%3D&se=1515923812&skn=iothubowner",
+                  "Content-Type": "application/json"
+                },
+                "body": {
+                  "methodName": "RouteRequest",
+                  "responseTimeoutInSeconds": 200,
+                  "payload": {
+                    "input1": "someInput",
+                    "input2": "anotherInput"
+                  }
+                }
+              },
+              "runAfter": {}
+            }
+          },
+          "parameters": {
+            "$connections": {
+              "defaultValue": {},
+              "type": "Object"
+            }
+          },
+          "triggers": {
+            "When_a_file_is_created": {
+              "type": "ApiConnection",
+              "inputs": {
+                "host": {
+                  "api": {
+                    "runtimeUrl": "https://logic-apis-westeurope.azure-apim.net/apim/onedriveforbusiness"
+                  },
+                  "connection": {
+                    "name": "@parameters('$connections')['onedriveforbusiness']['connectionId']"
+                  }
+                },
+                "method": "get",
+                "path": "/datasets/default/triggers/onnewfile",
+                "queries": {
+                  "folderId": "013PO54F6QIJNHGEUDF5GJRAWK2H7LZTD2"
+                }
+              },
+              "recurrence": {
+                "frequency": "Minute",
+                "interval": 1
+              },
+              "metadata": {
+                "013PO54F6QIJNHGEUDF5GJRAWK2H7LZTD2": "/eQueue"
+              }
+            }
+          },
+          "contentVersion": "1.0.0.0",
+          "outputs": {}
+        },
+        "parameters": {
+          "$connections": {
+            "value": {
+              "onedriveforbusiness": {
+                "id": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Web/locations/', parameters('logicAppLocation'), '/managedApis/', 'onedriveforbusiness')]",
+                "connectionId": "[resourceId('Microsoft.Web/connections', parameters('onedriveforbusiness_1_Connection_Name'))]",
+                "connectionName": "[parameters('onedriveforbusiness_1_Connection_Name')]"
+              }
+            }
+          }
+        }
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/connections', parameters('onedriveforbusiness_1_Connection_Name'))]"
+      ]
+    },
+    {
+      "type": "MICROSOFT.WEB/CONNECTIONS",
+      "apiVersion": "2016-06-01",
+      "name": "[parameters('onedriveforbusiness_1_Connection_Name')]",
+      "location": "[parameters('logicAppLocation')]",
+      "properties": {
+        "api": {
+          "id": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Web/locations/', parameters('logicAppLocation'), '/managedApis/', 'onedriveforbusiness')]"
+        },
+        "displayName": "[parameters('onedriveforbusiness_1_Connection_DisplayName')]"
+      }
+    }
+  ],
+  "outputs": {}
+}

@@ -7,6 +7,8 @@ namespace Console
 {
     internal static class Program
     {
+        private static long m_Cnt = 0;
+
         /// <summary>
         /// This is the entry point of the service host process.
         /// </summary>
@@ -28,7 +30,7 @@ namespace Console
                     //if (n++ > 10)
                     //    throw new Exception("Something bad happened!") ;
 
-                    System.Console.WriteLine("Running at {0}", DateTime.Now);
+                    System.Console.WriteLine($"Running at {0} - Counter = {m_Cnt}", DateTime.Now);
                     Thread.Sleep(1000);
                 }
 

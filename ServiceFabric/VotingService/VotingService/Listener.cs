@@ -28,7 +28,7 @@ namespace VotingService
             m_HttpListener.Prefixes.Add(uriPrefix);
             m_PublishedUri = uriPrefix.Replace("+", FabricRuntime.GetNodeContext().IPAddressOrFQDN);
 
-            Debug.WriteLine(m_PublishedUri);
+          Debug.WriteLine(m_PublishedUri);
         }
 
         public void Abort()
