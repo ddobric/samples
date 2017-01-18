@@ -60,25 +60,72 @@
         "definition": {
           "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
           "actions": {
-            "HTTP": {
-              "type": "Http",
-              "inputs": {
-                "method": "POST",
-                "uri": "https://daenethub.azure-devices.net/twins/D001/methods/?api-version=2016-11-14",
-                "headers": {
-                  "Authorization": "SharedAccessSignature sr=daenethub.azure-devices.net&sig=ZgJIMJ7oefmo5crJqPIaPYxX3xuPse5SbzCyAKrc%2BDc%3D&se=1515923812&skn=iothubowner",
-                  "Content-Type": "application/json"
-                },
-                "body": {
-                  "methodName": "RouteRequest",
-                  "responseTimeoutInSeconds": 200,
-                  "payload": {
-                    "input1": "someInput",
-                    "input2": "anotherInput"
-                  }
+            "Condition": {
+              "type": "If",
+              "expression": "@or(contains(triggerOutputs()['headers']['x-ms-file-name'], '.jpg'), contains(triggerOutputs()['headers']['x-ms-file-name'], '.png'))",
+              "actions": {
+                "HueGreen": {
+                  "type": "Http",
+                  "inputs": {
+                    "method": "POST",
+                    "uri": "https://daenethub.azure-devices.net/twins/D001/methods/?api-version=2016-11-14",
+                    "headers": {
+                      "Authorization": "SharedAccessSignature sr=daenethub.azure-devices.net&sig=ZgJIMJ7oefmo5crJqPIaPYxX3xuPse5SbzCyAKrc%2BDc%3D&se=1515923812&skn=iothubowner",
+                      "Content-Type": "application/json"
+                    },
+                    "body": {
+                      "methodName": "RouteRequest",
+                      "responseTimeoutInSeconds": 15,
+                      "payload": {
+                        "method": "put",
+                        "uri": "lights/4/state",
+                        "body": {
+                          "on": true,
+                          "bri": 255,
+                          "xy": [
+                            0.11,
+                            0.45
+                          ]
+                        }
+                      }
+                    }
+                  },
+                  "runAfter": {}
                 }
               },
-              "runAfter": {}
+              "runAfter": {},
+              "else": {
+                "actions": {
+                  "HueYellow": {
+                    "type": "Http",
+                    "inputs": {
+                      "method": "POST",
+                      "uri": "https://daenethub.azure-devices.net/twins/D001/methods/?api-version=2016-11-14",
+                      "headers": {
+                        "Authorization": "SharedAccessSignature sr=daenethub.azure-devices.net&sig=ZgJIMJ7oefmo5crJqPIaPYxX3xuPse5SbzCyAKrc%2BDc%3D&se=1515923812&skn=iothubowner",
+                        "Content-Type": "application/json"
+                      },
+                      "body": {
+                        "methodName": "RouteRequest",
+                        "responseTimeoutInSeconds": 15,
+                        "payload": {
+                          "method": "put",
+                          "uri": "lights/4/state",
+                          "body": {
+                            "on": true,
+                            "bri": 255,
+                            "xy": [
+                              0.5425,
+                              0.4196
+                            ]
+                          }
+                        }
+                      }
+                    },
+                    "runAfter": {}
+                  }
+                }
+              }
             }
           },
           "parameters": {

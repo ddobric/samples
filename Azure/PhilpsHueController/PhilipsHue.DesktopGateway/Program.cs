@@ -14,7 +14,7 @@ namespace PhilipsHue.DesktopGateway
         /// <summary>
         /// URL of the Hue gateway.
         /// </summary>
-        private static string m_GtwUri = "http://192.168.?.?/";
+        private static string m_GtwUri = "http://192.168.100.100/";
 
         /// <summary>
         /// To set username, you first have to run test GenerateUserTest().
@@ -22,7 +22,7 @@ namespace PhilipsHue.DesktopGateway
         /// the link button on the gatewey. Method GenerateUserName will return
         /// username, which you should set as value of this member variable.
         /// </summary>
-        private static string m_UsrName = "TODO";
+        private static string m_UsrName = "";
 
         private static IotApi m_Api;
 
@@ -30,7 +30,7 @@ namespace PhilipsHue.DesktopGateway
 
         static void Main(string[] args)
         {
-            var connStr = "TODO";
+            var connStr = "";
 
             m_DeviceClient = DeviceClient.CreateFromConnectionString(connStr, TransportType.Mqtt);
 
@@ -86,13 +86,24 @@ namespace PhilipsHue.DesktopGateway
                 else
                 {
                     Console.WriteLine($":( Unknown request. {request.DataAsJson}");
-                    resp = getResponse(":( Unknown request", 202);
+                    resp = getResponse(":( Unknown request", 201);
                 }             
             }
-            catch(Exception ex)
+            catch (IotApiException iotEx)
             {
-               Console.WriteLine(ex.Message);
-               resp = getResponse(ex.ToString(), 201);
+                IotApiException ex = iotEx;
+                while (ex.InnerException as IotApiException != null)
+                {
+                   // if(ex.InnerException as IotApiException == )
+                    
+                }
+                Console.WriteLine(iotEx.ReceivedMessages[0].ToString());
+                resp = getResponse($"{iotEx.Message} - {iotEx.ReceivedMessages[0].ToString()}", 202);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                resp = getResponse(ex.ToString(), 203);
             }
 
             return resp;
@@ -107,7 +118,7 @@ namespace PhilipsHue.DesktopGateway
         private async static void runMethodListener()
         {
             MethodCallback methodCallback = new MethodCallback(routeRequest);
-
+            
             await m_DeviceClient.OpenAsync();
 
             m_DeviceClient.SetMethodHandler("RouteRequest", methodCallback, "context");
