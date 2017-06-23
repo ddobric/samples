@@ -14,7 +14,7 @@ namespace PhilipsHue.DesktopGateway
         /// <summary>
         /// URL of the Hue gateway.
         /// </summary>
-        private static string m_GtwUri = "http://192.168.100.100/";
+        private static string m_GtwUri = "http://192.168.100.100/";//"http://192.168.178.40"
 
         /// <summary>
         /// To set username, you first have to run test GenerateUserTest().
@@ -22,7 +22,9 @@ namespace PhilipsHue.DesktopGateway
         /// the link button on the gatewey. Method GenerateUserName will return
         /// username, which you should set as value of this member variable.
         /// </summary>
-        private static string m_UsrName = "";
+        private static string m_UsrName = "IAFHa0gHSQwO4vHcKLi45U4GIOT8Ldky0nLdN9bC";//"LjRTgTUSLZmzodtrmKK1TxTlN8vZdaQ-fFMOllxt"
+
+        private static string m_ConnStr = "HostName=daenethub.azure-devices.net;DeviceId=D001;SharedAccessKey=uck7p18XBxCSQBxe0sNeoAyruqSy9HpDTIA2+ba1jy8=";
 
         private static IotApi m_Api;
 
@@ -30,22 +32,25 @@ namespace PhilipsHue.DesktopGateway
 
         static void Main(string[] args)
         {
-            var connStr = "";
+            m_DeviceClient = DeviceClient.CreateFromConnectionString(m_ConnStr, TransportType.Mqtt);
 
-            m_DeviceClient = DeviceClient.CreateFromConnectionString(connStr, TransportType.Mqtt);
+            runHueGateway();
 
-            runMethodListener();
+            runIotHubMethodListener();
 
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("daenet PhilipsHue Gateway router is connected to IoTHub.");
-
-            m_Api = new IotApi();
-            m_Api.UsePhilpsQueueRest(m_GtwUri, m_UsrName);
-            m_Api.Open();
-
+            
             Console.WriteLine("IotApi initialized.");
 
             Console.ReadLine();
+        }
+
+        private static void runHueGateway()
+        {
+            m_Api = new IotApi();
+            m_Api.UsePhilpsQueueRest(m_GtwUri, m_UsrName);
+            m_Api.Open();
         }
 
         private static async Task<MethodResponse> routeRequest(MethodRequest request, object args)
@@ -68,8 +73,7 @@ namespace PhilipsHue.DesktopGateway
                     string uri = jUri.Value<string>();
 
                     JToken jBody = lookupValue(obj, "body");
-                   // var cmd = jBody.First as JProperty;
-
+                 
                     HueCommand command = new HueCommand();
                     command.Path = uri;
                     command.Method = method;
@@ -91,14 +95,35 @@ namespace PhilipsHue.DesktopGateway
             }
             catch (IotApiException iotEx)
             {
-                IotApiException ex = iotEx;
-                while (ex.InnerException as IotApiException != null)
+                Exception ex = iotEx;
+
+                while (ex.InnerException != null)
                 {
-                   // if(ex.InnerException as IotApiException == )
-                    
+                    if (ex.InnerException as IotApiException != null && ((IotApiException)ex).ReceivedMessages != null)
+                    {
+                        ex = ex.InnerException;
+                        break;
+                    }
+                        
+                    else
+                        ex = ex.InnerException;                    
                 }
-                Console.WriteLine(iotEx.ReceivedMessages[0].ToString());
-                resp = getResponse($"{iotEx.Message} - {iotEx.ReceivedMessages[0].ToString()}", 202);
+
+                if (ex is IotApiException)
+                {
+                    Console.WriteLine(((IotApiException)ex).ReceivedMessages[0].ToString());
+                    resp = getResponse($"{ex.Message} - {((IotApiException)ex).ReceivedMessages[0].ToString()}", 202);
+                }
+                else if (ex != null)
+                {
+                    Console.WriteLine(iotEx.ReceivedMessages[0].ToString());
+                    resp = getResponse($"{ex.Message}", 202);
+                }
+                else
+                {
+                    Console.WriteLine(((IotApiException)ex).ReceivedMessages[0].ToString());
+                    resp = getResponse($"{iotEx.Message} - {iotEx.ReceivedMessages[0].ToString()}", 202);
+                }
             }
             catch (Exception ex)
             {
@@ -115,7 +140,7 @@ namespace PhilipsHue.DesktopGateway
             return new MethodResponse(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(msg)), code);
         }
 
-        private async static void runMethodListener()
+        private async static void runIotHubMethodListener()
         {
             MethodCallback methodCallback = new MethodCallback(routeRequest);
             
