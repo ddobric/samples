@@ -31,7 +31,9 @@ namespace Di
 
         public void Send(string phone, string text)
         {
+            m_Logger.LogInformation("Requested to send SMS");
             Console.WriteLine($"to:{phone}, {text}");
+            m_Logger.LogInformation($"to:{phone}, {text}");
         }
     }
 }

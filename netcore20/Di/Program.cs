@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Logging.Console;
 
 using System;
 
@@ -31,16 +32,20 @@ namespace Di
 
 
             var services = new ServiceCollection();
-             var m_ServiceProvider = services
-              .AddLogging()
+
+             m_ServiceProvider = services
+             .AddLogging()
+             .AddLogging()
              // .AddSingleton(smsProvFactory)
-              .AddScoped<ISmsSender>(smsProvFactory)
-              .BuildServiceProvider();
+             .AddScoped<ISmsSender>(smsProvFactory)
+             .BuildServiceProvider();
 
             Console.WriteLine("Hello World!");
 
             var smsSender = m_ServiceProvider.GetService<ISmsSender>();
-            smsSender.Send("","");
+            smsSender.Send("+4916325673665", "Halli hallo");
+
+            Console.ReadLine();
         }
     }
 
