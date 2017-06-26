@@ -50,6 +50,19 @@ namespace Di
     }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
     //var m_ServiceProvider = services
     //         .AddLogging()
     //         //.Configure<SmsSettings>((o)=> m_Config.GetSection("SmsSettings"))

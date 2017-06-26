@@ -3,7 +3,7 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFrameworks>netcoreapp2.0;</TargetFrameworks>
-    <!--<RuntimeIdentifiers>win10-x64;osx.10.11-x64</RuntimeIdentifiers>-->
+    <RuntimeIdentifiers>win10-x64;osx.10.11-x64</RuntimeIdentifiers>
 
   </PropertyGroup>
 
