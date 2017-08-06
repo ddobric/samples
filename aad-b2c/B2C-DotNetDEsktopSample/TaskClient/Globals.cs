@@ -13,8 +13,8 @@ namespace TaskClient
         public static string redirectUri = "urn:ietf:wg:oauth:2.0:oob";
 
         // TODO: Replace these five default with your own configuration values
-        public static string tenant = "HDMb2c.onmicrosoft.com";
-        public static string clientId = "6c811015-1f46-4e5e-9b05-1cd8e03c4b54";
+        public static string tenant = "TODO.onmicrosoft.com";
+        public static string clientId = "TODO";
         public static string signInPolicy = "b2c_1_sign_in";
         public static string signUpPolicy = "b2c_1_sign_up";
         public static string editProfilePolicy = "b2c_1_edit_profile";
