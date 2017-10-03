@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NetDesktopLib2;
+using System;
 
 namespace NetCoreLib
 {
@@ -6,7 +7,7 @@ namespace NetCoreLib
     {
         public static string Go(long a)
         {
-            return a++.ToString();
+            return DesktopLib2Class.Go(a);
         }
     }
 }

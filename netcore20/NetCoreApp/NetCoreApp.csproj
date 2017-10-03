@@ -20,21 +20,5 @@
   
   </PropertyGroup>-->
 
-  <ItemGroup>
-    <Reference Include="Daenet.System">
-      <HintPath>..\Sap Api\Daenet.System.dll</HintPath>
-    </Reference>
-    <Reference Include="Homag.SapApi">
-      <HintPath>..\Sap Api\Homag.SapApi.dll</HintPath>
-    </Reference>
-    <Reference Include="sapnco">
-      <HintPath>..\Sap Api\sapnco.dll</HintPath>
-    </Reference>
-    <Reference Include="sapnco_utils">
-      <HintPath>..\Sap Api\sapnco_utils.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Configuration" />
-  </ItemGroup>
-
 
 </Project>
