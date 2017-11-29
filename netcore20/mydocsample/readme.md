@@ -1,44 +1,3 @@
-## List of commands related to docker 
-
-### Get linux version:
-cat /etc/*-release
-
-### Run image with ssh
-docker run -ti --entrypoint /bin/sh YOUR_IMAGE
-
-
-### Install sudo
-apt-get update && apt-get -y install sudo
-
-
-### Install curl
-sudo apt-get install curl
-
-### Register the trusted Microsoft signature key
-curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg 
-
-
-sudo mv microsoft.gpg /etc/apt/trusted.gpg.d/microsoft.gpg 
-
-
-sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/microsoft-ubuntu-xenial-prod xenial main" > /etc/apt/sources.list.d/dotnetdev.list' 
-
-
-sudo apt-get update
-
-### Install VS Code
-https://code.visualstudio.com/docs/setup/linux
-
-## Install .NET Core on Ubuntu
-sudo sh -c 'echo "deb [arch=amd64] http://packages.microsoft.com/repos/microsoft-ubuntu-xenial-prod xenial main" > /etc/apt/sources.list.d/dotnetdev.list'
-
-curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
-
-sudo mv microsoft.gpg /etc/apt/trusted.gpg.d/microsoft.gpg
-
-sudo apt-get update
-
-sudo apt-get install dotnet-sdk-2.0.0
 
 ## How to run .NET Core application in docker container?
 
@@ -104,3 +63,46 @@ a0f200ad8fb4        8d8e7c5186c6        "./mydocsample"     45 seconds ago      
 
 To connecto the the log output of the running container:
 docker logs -f adoring_kalam
+
+
+## List of commands related to docker 
+
+### Get linux version:
+cat /etc/*-release
+
+### Run image with ssh
+docker run -ti --entrypoint /bin/sh YOUR_IMAGE
+
+
+### Install sudo
+apt-get update && apt-get -y install sudo
+
+
+### Install curl
+sudo apt-get install curl
+
+### Register the trusted Microsoft signature key
+curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg 
+
+
+sudo mv microsoft.gpg /etc/apt/trusted.gpg.d/microsoft.gpg 
+
+
+sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/microsoft-ubuntu-xenial-prod xenial main" > /etc/apt/sources.list.d/dotnetdev.list' 
+
+
+sudo apt-get update
+
+### Install VS Code
+https://code.visualstudio.com/docs/setup/linux
+
+## Install .NET Core on Ubuntu
+sudo sh -c 'echo "deb [arch=amd64] http://packages.microsoft.com/repos/microsoft-ubuntu-xenial-prod xenial main" > /etc/apt/sources.list.d/dotnetdev.list'
+
+curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
+
+sudo mv microsoft.gpg /etc/apt/trusted.gpg.d/microsoft.gpg
+
+sudo apt-get update
+
+sudo apt-get install dotnet-sdk-2.0.0
