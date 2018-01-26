@@ -210,3 +210,4 @@ FakesAssemblies/
 GeneratedArtifacts/
 _Pvt_Extensions/
 ModelManifest.xml
+/cosmos-perftests/CosmosPerfTests/CosmosPerfTests/CredsBackup.cs

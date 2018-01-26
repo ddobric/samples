@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 
 // Performance tips:
 // https://stackoverflow.com/questions/41744582/fastest-way-to-insert-100-000-records-into-documentdb
+// https://docs.microsoft.com/en-us/azure/cosmos-db/indexing-policies
+
 
 namespace CosmosPerfTests
 {
@@ -88,10 +90,13 @@ namespace CosmosPerfTests
             this.disposed = true;
         }
 
+        DocumentClient client = new DocumentClient(new Uri(Credentials.DocumentDb.EndpointUri),
+               Credentials.DocumentDb.Key);
+
         private DocumentClient getClient()
         {
-            DocumentClient client = new DocumentClient(new Uri(Credentials.DocumentDb.EndpointUri),
-                Credentials.DocumentDb.Key);
+            //DocumentClient client = new DocumentClient(new Uri(Credentials.DocumentDb.EndpointUri),
+            //    Credentials.DocumentDb.Key);
 
             return client;
         }

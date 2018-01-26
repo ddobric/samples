@@ -25,7 +25,7 @@ namespace CosmosPerfTests
         private static async Task RunAsync<T>(ISample<T> sample) where T : class
         {
           
-            int batchSize = 1000;
+            int batchSize = 20;
 
             //
             // Adding single records
@@ -67,7 +67,7 @@ namespace CosmosPerfTests
             // Deleting single record
             //
 
-            Console.WriteLine($"Deleting {batchSize} records by one");
+            Console.WriteLine($"Deleting {batchSize} records one by one");
 
             watch.Restart();
 
@@ -79,6 +79,8 @@ namespace CosmosPerfTests
             }
 
             watch.Stop();
+
+            Console.WriteLine();
 
             Console.WriteLine($"All records deleted in: {watch.ElapsedMilliseconds}");
 
