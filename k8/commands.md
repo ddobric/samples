@@ -1,0 +1,1 @@
+az aks browse -n myK8sCluster -g K8-RG
