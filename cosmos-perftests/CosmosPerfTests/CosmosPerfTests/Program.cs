@@ -9,12 +9,39 @@ namespace CosmosPerfTests
     {
         static void Main(string[] args)
         {
-            //ISample<TelemetryMongo> sample = new MongoSample();
-            ISample<TelemetryDocDb> sample = new DocumentDb();
+            Console.WriteLine("v1.1");
 
-            Console.WriteLine($"Test started...");
+            if (args != null && args.Length == 1 && args[0].ToLower() == "mongo")
+            {
+                ISample<TelemetryMongo> sampleMongo = new MongoSample();
 
-            RunAsync(sample).Wait();
+                Console.WriteLine($"MongoDB Test started...");
+
+                RunAsync(sampleMongo).Wait();
+            }
+            else if (args != null && args.Length == 1 && (args[0].ToLower() == "documentdb" || args[0].ToLower() == "docdb"))
+            {
+                ISample<TelemetryDocDb> sampleDocDb = new DocumentDb();
+
+                Console.WriteLine($"DocumentDB Test started...");
+
+                RunAsync(sampleDocDb).Wait();
+            }
+            else
+            {
+                ISample<TelemetryMongo> sampleMongo = new MongoSample();
+
+                Console.WriteLine($"MongoDB Test started...");
+
+                RunAsync(sampleMongo).Wait();
+
+                ISample<TelemetryDocDb> sampleDocDb = new DocumentDb();
+
+                Console.WriteLine("--------------------------------------");
+                Console.WriteLine($"DocumentDB Test started...");
+
+                RunAsync(sampleDocDb).Wait();
+            }
 
             Console.WriteLine($"Test completed. Press any key to exit.");
 
@@ -25,7 +52,7 @@ namespace CosmosPerfTests
         private static async Task RunAsync<T>(ISample<T> sample) where T : class
         {
           
-            int batchSize = 20;
+            int batchSize = 100;//500, 1000
 
             //
             // Adding single records

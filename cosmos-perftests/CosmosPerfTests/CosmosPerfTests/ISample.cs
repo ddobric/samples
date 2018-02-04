@@ -3,7 +3,12 @@ using System.Threading.Tasks;
 
 namespace CosmosPerfTests
 {
-    public interface ISample<T>
+    public interface ISample
+    {
+
+    }
+
+    public interface ISample<T> : ISample
     {
         void Dispose();
         Task<List<T>> GetAllTelemetryData();

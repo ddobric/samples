@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 // Performance tips:
 // https://stackoverflow.com/questions/41744582/fastest-way-to-insert-100-000-records-into-documentdb
 // https://docs.microsoft.com/en-us/azure/cosmos-db/indexing-policies
-
+// Requests Unit Calculator: https://www.documentdb.com/capacityplanner
 
 namespace CosmosPerfTests
 {
@@ -26,15 +26,25 @@ namespace CosmosPerfTests
 
         public async Task DeleteRecordAsync(TelemetryDocDb[] telemetryData)
         {
-            var client = getClient();
+            List<Task> tasks = new List<Task>();
 
             foreach (var doc in telemetryData)
-            {             
+            {
                 var docUri = UriFactory.CreateDocumentUri(Credentials.DocumentDb.DatabaseName, Credentials.DocumentDb.CollectionName, doc.id);
 
-                var book = await client.DeleteDocumentAsync(docUri/*, new RequestOptions { PartitionKey = new PartitionKey(1) }*/);
-
+                tasks.Add(client.DeleteDocumentAsync(docUri/*, new RequestOptions { PartitionKey = new PartitionKey(1) }*/));
             }
+
+            Task.WaitAll(tasks.ToArray());
+            //var client = getClient();
+
+            //foreach (var doc in telemetryData)
+            //{             
+            //    var docUri = UriFactory.CreateDocumentUri(Credentials.DocumentDb.DatabaseName, Credentials.DocumentDb.CollectionName, doc.id);
+
+            //    var book = await client.DeleteDocumentAsync(docUri/*, new RequestOptions { PartitionKey = new PartitionKey(1) }*/);
+
+            //}
         }
 
         public void Dispose()
