@@ -19,7 +19,7 @@ namespace CNTK.NET.Samples
 
             int inDim = 2;
 
-            int num_hidden_layers = 2;
+            int num_hidden_layers = 3;
             int hidden_layers_dim = 50;
 
             var input = Variable.InputVariable(new int[] { inDim }, DataType.Float);
@@ -37,7 +37,7 @@ namespace CNTK.NET.Samples
 
             test(trainer, input, label, testingData.X, testingData.Y, device);
 
-            evaluate(model, input, testingData.X, testingData.Y, device);
+            evaluate(model, input, testingData.X, testingData.Labels, device);
 
             model.Save(m_cModelPath);
         }
@@ -75,7 +75,7 @@ namespace CNTK.NET.Samples
             // Console.WriteLine($"Validating Model: Total Samples = {testSize}, Misclassify Count = {misMatches}");
         }
 
-        private Function getLinerLayer(Variable input, int outDim, DeviceDescriptor device)
+        private Function getLinearLayer(Variable input, int outDim, DeviceDescriptor device)
         {
             var glorotInit = CNTKLib.GlorotUniformInitializer(
                 CNTKLib.DefaultParamInitScale,
@@ -91,20 +91,27 @@ namespace CNTK.NET.Samples
 
         private Function getDenseLayer(Variable input, int outDim, Func<Variable, Function> activationFunction, DeviceDescriptor device)
         {
-            var linearLayer = getLinerLayer(input, outDim, device);
+            var linearLayer = getLinearLayer(input, outDim, device);
             return activationFunction(linearLayer);
         }
 
-        private Function createModel(Variable input, int numOfHiddenLayers, int outDim, int hiddenLayersDim, Func<Variable, Function> noneLinearity, DeviceDescriptor device)
+        private Function createModel(Variable input, int numOfHiddenLayers, int outDim, int hiddenLayersDim, Func<Variable, Function> activationFnc, DeviceDescriptor device)
         {
-            var h = input;
+            //var firstHiddenLayer = getDenseLayer(input, numOfHiddenLayers, activationFnc, device);
 
-            for (int i = 0; i < numOfHiddenLayers; i++)
-            {
-                h = getDenseLayer(h, hiddenLayersDim, noneLinearity, device);
-            }
+            //var hiddenLayer = firstHiddenLayer;
 
-            var lastLayer = getLinerLayer(input, outDim, device);
+            //for (int i = 1; i < numOfHiddenLayers; i++)
+            //{
+            //    hiddenLayer = getDenseLayer(hiddenLayer, hiddenLayersDim, activationFnc, device);
+            //}
+
+            //var lastLayer = getDenseLayer(hiddenLayer, outDim, activationFnc, device);
+
+            //return lastLayer;
+
+            // Model with single layer.
+            var lastLayer = getLinearLayer(input, outDim, device);
             return lastLayer;
         }
 
@@ -114,8 +121,10 @@ namespace CNTK.NET.Samples
             Function loss = CNTKLib.CrossEntropyWithSoftmax(model, label, "CrossEntropyWithSoftmax");
             Function prediction = CNTKLib.ClassificationError(model, label, "ClassificationError");
 
+            //TrainingParameterScheduleDouble learningRatePerSample = new TrainingParameterScheduleDouble(0.01, 1);
             TrainingParameterScheduleDouble learningRatePerSample = new TrainingParameterScheduleDouble(0.01, 1);
-            TrainingParameterScheduleDouble momentumTimeConstant = CNTKLib.MomentumAsTimeConstantSchedule(256);
+
+            TrainingParameterScheduleDouble momentumTimeConstant = CNTKLib.MomentumAsTimeConstantSchedule(25);
 
             IList<Learner> parameterLearners = new List<Learner>() {
                 Learner.MomentumSGDLearner(model.Parameters(),

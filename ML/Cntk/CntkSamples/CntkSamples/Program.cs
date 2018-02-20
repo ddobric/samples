@@ -17,7 +17,7 @@ namespace CNTK.NET.Samples
                 var device = DeviceDescriptor.CPUDevice;
                 Shapes(device);
                 FeedForwardSample feedFwdSample = new FeedForwardSample();
-                //feedFwdSample.Run(device);
+                feedFwdSample.Run(device);
                 feedFwdSample.Evaluate(device);
                 return;
 

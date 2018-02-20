@@ -79,6 +79,63 @@ namespace CNTK.NET.Samples
             Console.WriteLine($"The model trained with the accuracy {acc}%");
         }
 
+        static Function createFFNN(Variable input, int hiddenLayerCount, int hiddenDim, int outputDim, Activation activation, string modelName, DeviceDescriptor device)
+        {
+            //First the parameters initialization must be performed
+            var glorotInit = CNTKLib.GlorotUniformInitializer(
+                    CNTKLib.DefaultParamInitScale,
+                    CNTKLib.SentinelValueForInferParamInitRank,
+                    CNTKLib.SentinelValueForInferParamInitRank, 1);
+
+            //hidden layers creation
+            //first hidden layer
+            Function h = simpleLayer(input, hiddenDim, device);
+            h = applyActivationFunction(h, activation);
+            //2,3, ... hidden layers
+            for (int i = 1; i < hiddenLayerCount; i++)
+            {
+                h = simpleLayer(h, hiddenDim, device);
+                h = applyActivationFunction(h, activation);
+            }
+            //the last action is creation of the output layer
+            var r = simpleLayer(h, outputDim, device);
+            r.SetName(modelName);
+            return r;
+        }
+
+        static Function applyActivationFunction(Function layer, Activation actFun)
+        {
+            switch (actFun)
+            {
+                default:
+                case Activation.None:
+                    return layer;
+                case Activation.ReLU:
+                    return CNTKLib.ReLU(layer);
+                case Activation.Sigmoid:
+                    return CNTKLib.Sigmoid(layer);
+                case Activation.Tanh:
+                    return CNTKLib.Tanh(layer);
+            }
+        }
+
+        static Function simpleLayer(Function input, int outputDim, DeviceDescriptor device)
+        {
+            //prepare default parameters values
+            var glorotInit = CNTKLib.GlorotUniformInitializer(
+                    CNTKLib.DefaultParamInitScale,
+                    CNTKLib.SentinelValueForInferParamInitRank,
+                    CNTKLib.SentinelValueForInferParamInitRank, 1);
+
+            //create weight and bias vectors
+            var var = (Variable)input;
+            var shape = new int[] { outputDim, var.Shape[0] };
+            var weightParam = new Parameter(shape, DataType.Float, glorotInit, device, "w");
+            var biasParam = new Parameter(new NDShape(1, outputDim), 0, device, "b");
+
+            //construct W * X + b matrix
+            return CNTKLib.Times(weightParam, input) + biasParam;
+        }
 
         static (float[], float[]) loadIrisDataset(string filePath, int featureDim, int numClasses)
         {
