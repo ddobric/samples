@@ -25,7 +25,7 @@ namespace CNTK.NET.Samples
             var input = Variable.InputVariable(new int[] { inDim }, DataType.Float);
             var label = Variable.InputVariable(new int[] { outDim }, DataType.Float);
 
-            var trainingData = Program.GenerateRandomData(1000000, 2, 2);
+            var trainingData = Program.GenerateRandomData(1000000, 2, 2, "data.csv");
 
             var testingData = Program.GenerateRandomData(100, 2, 2);
 
@@ -42,6 +42,11 @@ namespace CNTK.NET.Samples
             model.Save(m_cModelPath);
         }
 
+
+        /// <summary>
+        /// Loads pre-trained model and performs evaluation.
+        /// </summary>
+        /// <param name="device"></param>
         internal void Evaluate(DeviceDescriptor device)
         {
             var testingData = Program.GenerateRandomData(100, 2, 2);
@@ -53,6 +58,15 @@ namespace CNTK.NET.Samples
             evaluate(model, input, testingData.X, testingData.Labels, device);
         }
 
+
+        /// <summary>
+        /// Evaluates model.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="input"></param>
+        /// <param name="testingData"></param>
+        /// <param name="expectedLabels"></param>
+        /// <param name="device"></param>
         private void evaluate(Function model, Variable input, float[] testingData, float[] expectedLabels, DeviceDescriptor device)
         {
             var batch = Value.CreateBatch<float>(new NDShape(1, input.Shape[0]), testingData, device);
@@ -97,40 +111,41 @@ namespace CNTK.NET.Samples
 
         private Function createModel(Variable input, int numOfHiddenLayers, int outDim, int hiddenLayersDim, Func<Variable, Function> activationFnc, DeviceDescriptor device)
         {
-            //var firstHiddenLayer = getDenseLayer(input, numOfHiddenLayers, activationFnc, device);
+           // Deep network model.
+           var firstHiddenLayer = getDenseLayer(input, numOfHiddenLayers, activationFnc, device);
 
-            //var hiddenLayer = firstHiddenLayer;
+            var hiddenLayer = firstHiddenLayer;
 
-            //for (int i = 1; i < numOfHiddenLayers; i++)
-            //{
-            //    hiddenLayer = getDenseLayer(hiddenLayer, hiddenLayersDim, activationFnc, device);
-            //}
+            for (int i = 1; i < numOfHiddenLayers; i++)
+            {
+                hiddenLayer = getDenseLayer(hiddenLayer, hiddenLayersDim, activationFnc, device);
+            }
 
-            //var lastLayer = getDenseLayer(hiddenLayer, outDim, activationFnc, device);
+            var lastLayer = getDenseLayer(hiddenLayer, outDim, activationFnc, device);
 
-            //return lastLayer;
+            return lastLayer;
 
             // Model with single layer.
-            var lastLayer = getLinearLayer(input, outDim, device);
-            return lastLayer;
+            //var lastLayer = getLinearLayer(input, outDim, device);
+            //return lastLayer;
         }
 
         private Trainer createTrainer(Function model, Variable label)
         {
             //Function loss = CNTKLib.SquaredError(model, label, "Softmax");
             Function loss = CNTKLib.CrossEntropyWithSoftmax(model, label, "CrossEntropyWithSoftmax");
-            Function prediction = CNTKLib.ClassificationError(model, label, "ClassificationError");
+            Function evalFunc = CNTKLib.ClassificationError(model, label, "ClassificationError");
 
             //TrainingParameterScheduleDouble learningRatePerSample = new TrainingParameterScheduleDouble(0.01, 1);
             TrainingParameterScheduleDouble learningRatePerSample = new TrainingParameterScheduleDouble(0.01, 1);
 
-            TrainingParameterScheduleDouble momentumTimeConstant = CNTKLib.MomentumAsTimeConstantSchedule(25);
-
+            TrainingParameterScheduleDouble momentumTimeConstant = CNTKLib.MomentumAsTimeConstantSchedule(250);
+         
             IList<Learner> parameterLearners = new List<Learner>() {
                 Learner.MomentumSGDLearner(model.Parameters(),
                 learningRatePerSample, momentumTimeConstant, /*unitGainMomentum = */true)  };
 
-            var trainer = Trainer.CreateTrainer(model, loss, prediction, parameterLearners);
+            var trainer = Trainer.CreateTrainer(model, loss, evalFunc, parameterLearners);
 
             return trainer;
         }
@@ -165,6 +180,15 @@ namespace CNTK.NET.Samples
             }
         }
 
+        /// <summary>
+        /// Not finished.
+        /// </summary>
+        /// <param name="trainer"></param>
+        /// <param name="testVariable"></param>
+        /// <param name="label"></param>
+        /// <param name="testData"></param>
+        /// <param name="labelData"></param>
+        /// <param name="device"></param>
         private void test(Trainer trainer, Variable testVariable,
           Variable label,
           float[] testData, float[] labelData,
@@ -179,7 +203,6 @@ namespace CNTK.NET.Samples
             UnorderedMapVariableMinibatchData batch = new UnorderedMapVariableMinibatchData();
             batch.Add(testVariable, new MinibatchData(xValues));
             batch.Add(label, new MinibatchData(yValues));
-
 
             var res = trainer.TestMinibatch(batch, device);
         }

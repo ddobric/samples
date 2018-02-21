@@ -1,6 +1,8 @@
 ﻿using CNTK;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,17 +15,33 @@ namespace CNTK.NET.Samples
         {
             try
             {
-
                 var device = DeviceDescriptor.CPUDevice;
+
+                // Arrays and ranks
+                Ranks();
+
+                // Demonstrates how to work wirh Shapes.
                 Shapes(device);
+
+                // Demonstrates how to work with values.
+                Values(device);
+                    
+                //
+                // Run Feed Froward Deep Network Sample
                 FeedForwardSample feedFwdSample = new FeedForwardSample();
                 feedFwdSample.Run(device);
                 feedFwdSample.Evaluate(device);
+
+                //
+                // Run IRIS sample
+                IrisSample irisSample = new IrisSample();
+                irisSample.Run(device);
+
                 return;
 
                 TrainerSample(device);
-                Ranks();
-                Shapes(device);
+               
+               
                 Values(device);
                 DataBatchSample(device);
 
@@ -87,19 +105,27 @@ namespace CNTK.NET.Samples
             s = new NDShape(2, 4);
             s = new NDShape(3, 2);
             s = new NDShape(3, 4);
-            s = new NDShape(5, 2);
-
-
-            var f = new float[2][];
-            f[0] = new float[] { 10.0f, 11.0f };
-            f[1] = new float[] { 21.0f, 22.0f };
-
-            var v1 = Value.Create<float>(new NDShape(1, 2), f, new bool[] { true, true }, device);
+            s = new NDShape(5, 2);            
+         
         }
+
+        /// <summary>
+        /// Demonstrates how to work with Values and variables.
+        /// </summary>
+        /// <param name="device"></param>
 
         private static void Values(DeviceDescriptor device)
         {
-            // var v1 = Value.Create<float>(new NDShape(1, 2), f, new bool[] { true, true }, device);
+            var f = new float[3][];
+            f[0] = new float[] { 10.0f, 11.0f };
+            f[1] = new float[] { 21.0f, 22.0f };
+            f[2] = new float[] { 31.0f, 33.0f };
+
+            var v1 = Value.Create<float>(new NDShape(1, 2), f, new bool[] { true, true, true }, device);
+
+            var input = Variable.InputVariable(new NDShape(1, 2), DataType.Float);
+
+            var data = v1.GetDenseData<float>(input);
         }
 
 
@@ -248,7 +274,7 @@ namespace CNTK.NET.Samples
         {
             if (num == 0)
             {
-                codedLabels=0;
+                codedLabels = 0;
                 return new float[] { 1, 0, 0 };
             }
             else if (num == 1)
@@ -275,7 +301,7 @@ namespace CNTK.NET.Samples
         }
 
         public static (float[] X, float[] Y, float[] Labels) GenerateRandomData(int sampleSize, int featureDim,
-            int numClasses)
+            int numClasses, string fileName = null)
         {
             float[] markers = new float[] { 5.0f, 10.0f, 15.0f };
 
@@ -310,9 +336,34 @@ namespace CNTK.NET.Samples
                 xLst.AddRange(xComponents);
             }
 
+            if (fileName != null)
+            {
+                saveData(featureDim, xLst);
+            }
+
             return (xLst.ToArray(), yLst.ToArray(), lLst.ToArray());
+
         }
 
+        private static void saveData(int featureDim, List<float> xLst)
+        {
+            using (var sw = new StreamWriter("data.csv"))
+            {
+                int k = 0;
 
+                string line = String.Empty;
+
+                foreach (var row in xLst)
+                {
+                    line += row.ToString() + ";";
+                    if (++k >= featureDim)
+                    {
+                        sw.WriteLine(line);
+                        line = String.Empty;
+                        k = 0;
+                    }
+                }
+            }
+        }
     }
 }

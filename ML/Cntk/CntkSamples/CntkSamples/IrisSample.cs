@@ -9,12 +9,12 @@ namespace CNTK.NET.Samples
     /// <summary>
     /// 
     /// </summary>
-    public partial class CNTK_TrainIrisData
+    public partial class IrisSample
     {
-        public static void TrainIriswithBatch(DeviceDescriptor device)
+        public void Run(DeviceDescriptor device)
         {
             //data file path
-            var iris_data_file = "Data/iris_with_hot_vector.csv";
+            var iris_data_file = "data\\iris_with_hot_vector.csv";
 
             //Network definition
             int inputDim = 4;
@@ -68,7 +68,7 @@ namespace CNTK.NET.Samples
                 trainer.TrainMinibatch(dic, device);
 
                 //print progress
-                //printTrainingProgress(trainer, i++, 50);
+                Console.WriteLine($"Iteration: {i} - Count: {trainer.PreviousMinibatchSampleCount()} - EvalAvg: {trainer.PreviousMinibatchEvaluationAverage()} - Loss: {trainer.PreviousMinibatchLossAverage()}");
 
                 //
                 epochs--;
