@@ -111,23 +111,23 @@ namespace CNTK.NET.Samples
 
         private Function createModel(Variable input, int numOfHiddenLayers, int outDim, int hiddenLayersDim, Func<Variable, Function> activationFnc, DeviceDescriptor device)
         {
-           // Deep network model.
-           var firstHiddenLayer = getDenseLayer(input, numOfHiddenLayers, activationFnc, device);
+            // Deep network model.
+            //var firstHiddenLayer = getDenseLayer(input, numOfHiddenLayers, activationFnc, device);
 
-            var hiddenLayer = firstHiddenLayer;
+            // var hiddenLayer = firstHiddenLayer;
 
-            for (int i = 1; i < numOfHiddenLayers; i++)
-            {
-                hiddenLayer = getDenseLayer(hiddenLayer, hiddenLayersDim, activationFnc, device);
-            }
+            // for (int i = 1; i < numOfHiddenLayers; i++)
+            // {
+            //     hiddenLayer = getDenseLayer(hiddenLayer, hiddenLayersDim, activationFnc, device);
+            // }
 
-            var lastLayer = getDenseLayer(hiddenLayer, outDim, activationFnc, device);
+            // var lastLayer = getDenseLayer(hiddenLayer, outDim, activationFnc, device);
 
-            return lastLayer;
+            // return lastLayer;
 
             // Model with single layer.
-            //var lastLayer = getLinearLayer(input, outDim, device);
-            //return lastLayer;
+            var lastLayer = getLinearLayer(input, outDim, device);
+            return lastLayer;
         }
 
         private Trainer createTrainer(Function model, Variable label)

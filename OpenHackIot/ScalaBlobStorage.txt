@@ -1,0 +1,43 @@
+
+
+
+import org.apache.spark.sql._
+import org.apache.spark.sql.types._
+import spark.implicits._
+
+val eventhubParameters = Map[String, String] (
+     "eventhubs.policyname" -> "iothubowner",
+     "eventhubs.policykey" -> "nI7ONdIaQPXruvX64BPYX56RN3WlWpDOZPk9YFM/C+4=",
+     "eventhubs.namespace" -> "iothub-ns-t10iothub-367150-299f8fb8eb",
+     "eventhubs.name" -> "t10iothub",
+     "eventhubs.partition.count" -> "4",
+     "eventhubs.consumergroup" -> "$Default",
+     "eventhubs.progressTrackingDir" -> "/eventhubs/progress",
+     "eventhubs.sql.containsProperties" -> "true"
+     )
+
+val inputStream = spark.readStream.
+format("eventhubs").
+options(eventhubParameters).
+load()
+
+val test = inputStream.selectExpr("CAST(body as STRING)")
+
+
+val schema = StructType(StructField("deviceTime", StringType, false)::Nil)
+
+val archivedata = inputStream.selectExpr("CAST(body as STRING)", "enqueuedTime").select(from_json(col("body"), schema).alias("data"))
+
+val archivedata_w_partitions = (archivedata
+.select($"data.deviceTime".cast("timestamp").alias("DeviceTime"))
+.withColumn("year", year(col("DeviceTime").cast("timestamp")))
+.withColumn("month", month(col("DeviceTime").cast("timestamp")))
+.withColumn("day", dayofmonth(col("DeviceTime").cast("timestamp")))
+.where("year is not null"))
+
+
+val archivestream = (archivedata_w_partitions.writeStream
+.outputMode("append")
+.option("checkpointLocation", "wasbs://scalacheckpoint@openhackiotdata010stor.blob.core.windows.net/")
+.format("parquet").option("path", "wasbs://scalaarchive@openhackiotdata010stor.blob.core.windows.net/")
+.partitionBy("year", "month", "day").start())
