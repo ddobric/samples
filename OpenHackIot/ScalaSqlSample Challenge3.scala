@@ -10,10 +10,10 @@ import java.sql.{Connection,DriverManager,ResultSet}
 import spark.implicits._
 
 val eventhubParameters = Map[String, String] (
-     "eventhubs.policyname" -> "iothubowner",
-     "eventhubs.policykey" -> "nI7ONdIaQPXruvX64BPYX56RN3WlWpDOZPk9YFM/C+4=",
-     "eventhubs.namespace" -> "iothub-ns-t10iothub-367150-299f8fb8eb",
-     "eventhubs.name" -> "t10iothub",
+     "eventhubs.policyname" -> "***",
+     "eventhubs.policykey" -> "***",
+     "eventhubs.namespace" -> "***",
+     "eventhubs.name" -> "***",
      "eventhubs.partition.count" -> "4",
      "eventhubs.consumergroup" -> "$Default",
      "eventhubs.progressTrackingDir" -> "/eventhubs/progress",
@@ -43,7 +43,7 @@ val WriteToSQLQuery  = persistenceDF.writeStream.foreach(new ForeachWriter[Row] 
    var statement:java.sql.Statement = _
 
    val jdbcUsername = "***"
-   val jdbcPassword = "Longpa$$w0rd"
+   val jdbcPassword = "***"
    val jdbcHostname = "***.database.windows.net" //typically, this is in the form or servername.database.windows.net
    val jdbcPort = 1433
    val jdbcDatabase ="sql-db"
