@@ -1,4 +1,4 @@
-,Samples from OpenHack IoT in Munich 2018
+Samples from OpenHack IoT in Munich 2018
 
 Mastered by:
 Christian Pfisterer
