@@ -10,10 +10,10 @@ import java.sql.{Connection,DriverManager,ResultSet}
 import spark.implicits._
 
 val eventhubParameters = Map[String, String] (
-     "eventhubs.policyname" -> "iothubowner",
-     "eventhubs.policykey" -> "nI7ONdIaQPXruvX64BPYX56RN3WlWpDOZPk9YFM/C+4=",
-     "eventhubs.namespace" -> "iothub-ns-t10iothub-367150-299f8fb8eb",
-     "eventhubs.name" -> "t10iothub",
+     "eventhubs.policyname" -> "***",
+     "eventhubs.policykey" -> "***",
+     "eventhubs.namespace" -> "***",
+     "eventhubs.name" -> "***",
      "eventhubs.partition.count" -> "4",
      "eventhubs.consumergroup" -> "$Default",
      "eventhubs.progressTrackingDir" -> "/eventhubs/progress",
