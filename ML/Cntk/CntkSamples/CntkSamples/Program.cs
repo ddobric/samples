@@ -64,6 +64,14 @@ namespace CNTK.NET.Samples
             }
         }
 
+        private static Array getRow<T>(Array array, int dimension = 0)
+        {
+
+            var row = Array.CreateInstance(typeof(T), array.GetUpperBound(dimension) + 1);
+            for (int i = 0; i <= array.GetUpperBound(dimension); i++)
+                row.SetValue()
+                Console.WriteLine(a.GetValue(0, i));
+        }
 
         private static void Ranks()
         {
@@ -71,6 +79,12 @@ namespace CNTK.NET.Samples
             // Rank 2.  el[i,j]. el[1,1] = 6
             int[,] array2Da = new int[,] { { 2, 3, 3 }, { 5, /**/6, 4 }, { 7, 9, 5 }, { 11, 12, 6 }, { 11, 12, 7 }, { 131, 1442, 8 } };
             int[,] array2Db = new int[,] { { 2, 3 }, { 5, 6 }, { 7, 9 }, { 11, 12 }, { 11, 12 }, { 131, 1442 } };
+
+            Array a = array2Da;
+           
+            var six = a.GetValue(1,1);//5,6,4
+            for (int i = 0; i <= a.GetUpperBound(1); i++)
+                Console.WriteLine(a.GetValue(0, i));
 
             //
             // Rank 3. el[i,j,k]. el[1,1,1] = 11

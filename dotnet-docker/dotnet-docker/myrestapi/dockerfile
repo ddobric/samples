@@ -1,0 +1,10 @@
+﻿FROM microsoft/aspnetcore-build:2.0  AS build-sdk-env
+WORKDIR /app 
+COPY . ./
+RUN dotnet restore
+RUN dotnet publish -c Release -o out
+FROM  microsoft/aspnetcore:2.0
+WORKDIR /app
+COPY --from=build-sdk-env /app/out ./
+ENTRYPOINT ["dotnet", "./myrestapi.dll"]
+

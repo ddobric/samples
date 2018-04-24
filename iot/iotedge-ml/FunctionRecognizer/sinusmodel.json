@@ -1,0 +1,113 @@
+﻿{
+  "$type": "LearningFoundation.LearningApi, LearningApi",
+  "Context": {
+    "$type": "LearningFoundation.Context, LearningApi",
+    "DataDescriptor": null,
+    "Score": null,
+    "IsMoreDataAvailable": false
+  },
+  "Modules": {
+    "$type": "System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib],[LearningFoundation.IPipelineModule, LearningApi]], System.Private.CoreLib",
+    "ActionModule-7f8c0982-bd09-4f64-9557-aeb2dc4f5799": { "$type": "LearningFoundation.FunctionModule`2[[System.Object, System.Private.CoreLib],[System.Double[][], System.Private.CoreLib]], LearningApi" },
+    "KMeanFunctionRecognitionModule": {
+      "$type": "AnomDetect.KMeans.FunctionRecognition.KMeansFunctionRecognitionAlgorithm, AnomDetect.KMeans",
+      "Settings": {
+        "$type": "LearningFoundation.Clustering.KMeans.ClusteringSettings, AnomDetect.KMeans",
+        "KmeansAlgorithm": 2,
+        "KmeansMaxIterations": 1000,
+        "NumberOfClusters": 4,
+        "NumOfDimensions": 2,
+        "InitialCentroids": {
+          "$type": "System.Double[][], System.Private.CoreLib",
+          "$values": [
+            {
+              "$type": "System.Double[], System.Private.CoreLib",
+              "$values": [ 3.8327430373795468, 0.11011766326466398 ]
+            },
+            {
+              "$type": "System.Double[], System.Private.CoreLib",
+              "$values": [ 11.623892818282235, 0.14169213511361384 ]
+            },
+            {
+              "$type": "System.Double[], System.Private.CoreLib",
+              "$values": [ 19.477874452256717, -0.10214551917803942 ]
+            },
+            {
+              "$type": "System.Double[], System.Private.CoreLib",
+              "$values": [ 27.394687939302997, -0.14265898726669166 ]
+            }
+          ]
+        },
+        "Tolerance": 0.0
+      },
+      "Score": {
+        "$type": "AnomDetect.KMeans.FunctionRecognition.KMeansFunctionRecognitonScore, AnomDetect.KMeans",
+        "NomOfSamples": 50000,
+        "NomOfTrainedFunctions": 0,
+        "Centroids": {
+          "$type": "System.Double[][], System.Private.CoreLib",
+          "$values": [
+            {
+              "$type": "System.Double[], System.Private.CoreLib",
+              "$values": [ 3.8327430373795468, 0.10758272070210151 ]
+            },
+            {
+              "$type": "System.Double[], System.Private.CoreLib",
+              "$values": [ 11.623892818282235, 0.14640543846274057 ]
+            },
+            {
+              "$type": "System.Double[], System.Private.CoreLib",
+              "$values": [ 19.477874452256717, -0.10447363080905658 ]
+            },
+            {
+              "$type": "System.Double[], System.Private.CoreLib",
+              "$values": [ 27.394687939302997, -0.14670007390196246 ]
+            }
+          ]
+        },
+        "MinCentroid": {
+          "$type": "System.Double[][], System.Private.CoreLib",
+          "$values": [
+            {
+              "$type": "System.Double[], System.Private.CoreLib",
+              "$values": [ 3.8327430373795468, 0.09551765834486764 ]
+            },
+            {
+              "$type": "System.Double[], System.Private.CoreLib",
+              "$values": [ 11.623892818282235, 0.1347340885399535 ]
+            },
+            {
+              "$type": "System.Double[], System.Private.CoreLib",
+              "$values": [ 19.477874452256717, -0.1179756104755868 ]
+            },
+            {
+              "$type": "System.Double[], System.Private.CoreLib",
+              "$values": [ 27.394687939302997, -0.16081912801611928 ]
+            }
+          ]
+        },
+        "MaxCentroid": {
+          "$type": "System.Double[][], System.Private.CoreLib",
+          "$values": [
+            {
+              "$type": "System.Double[], System.Private.CoreLib",
+              "$values": [ 3.8327430373795468, 0.11964778305933538 ]
+            },
+            {
+              "$type": "System.Double[], System.Private.CoreLib",
+              "$values": [ 11.623892818282235, 0.15807678838552766 ]
+            },
+            {
+              "$type": "System.Double[], System.Private.CoreLib",
+              "$values": [ 19.477874452256717, -0.090971651142526366 ]
+            },
+            {
+              "$type": "System.Double[], System.Private.CoreLib",
+              "$values": [ 27.394687939302997, -0.13258101978780565 ]
+            }
+          ]
+        }
+      }
+    }
+  }
+}
