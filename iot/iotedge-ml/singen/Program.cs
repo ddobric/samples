@@ -102,7 +102,7 @@ namespace singen
 
             Console.WriteLine("IoT Hub module client initialized.");
 
-            var funcData = FunctionGenerator.CreateFunction(200, 2, 2);
+            var funcData = FunctionGenerator.CreateFunction(500, 2, 2 * Math.PI / 100);
 
             while (true)
             {

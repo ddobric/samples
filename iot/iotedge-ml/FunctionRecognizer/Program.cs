@@ -106,7 +106,7 @@ namespace FunctionRecognizer
             // Simulates message receiving.
             while (true)
             {             
-                var similarFunc = FunctionGenerator.CreateSimilarFromReferenceFunc(funcData.ToArray(), 15);
+                var similarFunc = FunctionGenerator.CreateSimilarFromReferenceFunc(funcData.ToArray(), 5);
 
                 var msgData = JsonConvert.SerializeObject(similarFunc);
 
@@ -138,6 +138,9 @@ namespace FunctionRecognizer
 
             var api = LearningApi.Load("sinusmodel");
             var res = api.Algorithm.Predict(funcData, null) as KMeansFuncionRecognitionResult;
+
+            writeResult(res);
+
             if (res.Result == false)
                 isAnomaly = true;
             else
@@ -146,6 +149,15 @@ namespace FunctionRecognizer
             return funcData;
         }
 
+        private static void writeResult(KMeansFuncionRecognitionResult res)
+        {
+            foreach (var item in res.ResultsPerCluster)
+            {
+                Console.Write($"{item} - ");
+            }
+
+            Console.WriteLine();
+        }
 
         /// <summary>
         /// This method is called whenever the module is sent a message from the EdgeHub. 
