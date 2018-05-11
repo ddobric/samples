@@ -14,6 +14,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="taxi fare data\taxifair-train.csv~RF5673d31.TMP" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.ML" Version="0.1.0" />
   </ItemGroup>
 
@@ -22,6 +26,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="sentiment labelled sentences\yelp_labelled.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="taxi fare data\taxi-fare-test.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="taxi fare data\taxi-fare-train.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

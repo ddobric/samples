@@ -13,10 +13,11 @@ namespace MLNet.Sample
 
         static void Main(string[] args)
         {
-            SentimentSample sample = new SentimentSample();
-            sample.Run().Wait();
+            TaxiFareSample taxiSample = new TaxiFareSample();
+            taxiSample.Run().Wait();
 
-        
+            SentimentSample sample = new SentimentSample();
+            sample.Run().Wait();        
         }
 
     
