@@ -51,7 +51,7 @@ namespace CosmosPerfTests
 
         private static async Task RunAsync<T>(ISample<T> sample) where T : class
         {
-          
+
             int batchSize = 100;//500, 1000
 
             //
@@ -84,6 +84,9 @@ namespace CosmosPerfTests
             //
 
             var telemetryData = await sample.GetAllTelemetryData();
+
+            // Query sample
+            // await ((MongoSample)sample).QueryData();
 
             watch.Stop();
 
@@ -119,7 +122,7 @@ namespace CosmosPerfTests
             Console.WriteLine($"Uploading {batchSize} records");
 
             watch.Restart();
-            
+
             List<T> telList = new List<T>();
 
             for (int i = 0; i < batchSize; i++)
@@ -155,10 +158,12 @@ namespace CosmosPerfTests
 
             Console.WriteLine($"All records deleted in: {watch.ElapsedMilliseconds}");
 
-            
+
         }
 
         private static Random m_Random = new Random();
+
+        private static int m_Incr = 1;
 
         private static T getSampleData<T>()
         {
@@ -166,6 +171,8 @@ namespace CosmosPerfTests
             {
                 return (T)(object)new TelemetryMongo()
                 {
+                    _id = MongoDB.Bson.ObjectId.GenerateNewId(),
+
                     DeviceId = $"DEV_{m_Random.Next(1, 1000)}",
 
                     Temperature = m_Random.Next(25, 35) + m_Random.NextDouble(),

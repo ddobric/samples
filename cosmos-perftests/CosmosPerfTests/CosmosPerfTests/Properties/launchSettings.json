@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "CosmosPerfTests": {
+      "commandName": "Project",
+      "commandLineArgs": "mongo"
+    }
+  }
+}
