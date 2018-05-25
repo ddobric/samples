@@ -1,0 +1,5 @@
+HDInsight clusters are available in various types, 
+each for a single workload or technology.
+There is no supported method to create a cluster that combines multiple types, 
+such as Storm and HBase on one cluster. If your solution requires technologies that are spread 
+across multiple HDInsight cluster types, an Azure virtual network can connect the required cluster types. 

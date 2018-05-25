@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "HadoopMapper": {
+      "commandName": "Project",
+      "commandLineArgs": "aaa bbb ccc ddd eee fff "
+    }
+  }
+}
