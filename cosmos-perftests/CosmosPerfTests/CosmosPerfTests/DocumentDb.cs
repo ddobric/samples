@@ -19,6 +19,11 @@ namespace CosmosPerfTests
     public class DocumentDb : ISample<TelemetryDocDb>, IDisposable
     {
 
+        /// <summary>
+        /// Deletes the single record.
+        /// </summary>
+        /// <param name="record"></param>
+        /// <returns></returns>
         public async Task DeleteRecordAsync(TelemetryDocDb record)
         {
             var client = getClient();
@@ -32,6 +37,12 @@ namespace CosmosPerfTests
             var book = await client.DeleteDocumentAsync(docUri, new RequestOptions { PartitionKey = new PartitionKey(Program.PartitionKey1) });
         }
 
+
+        /// <summary>
+        /// Deletes list of records.
+        /// </summary>
+        /// <param name="telemetryData"></param>
+        /// <returns></returns>
         public async Task DeleteRecordAsync(TelemetryDocDb[] telemetryData)
         {
             List<Task> tasks = new List<Task>();
@@ -108,28 +119,34 @@ namespace CosmosPerfTests
         }
 
         /// <summary>
-        /// Demonstrates how to filter data and return all possible properties like etag, _rid, _self etc..
+        /// Demonstrates how to filter data and return specific properties only
         /// </summary>
         internal async Task QueryData3()
         {
             var client = getClient();
 
-            FeedOptions queryOptions = new FeedOptions { MaxItemCount = 500, EnableCrossPartitionQuery = true, EnableScanInQuery = true, };
-
-            IQueryable<TelemetryDocDb> query = client.CreateDocumentQuery<TelemetryDocDb>(
-               UriFactory.CreateDocumentCollectionUri(Credentials.DocumentDb.DatabaseName, Credentials.DocumentDb.CollectionName), queryOptions);
-
-            var filtered = query.Where(b => b.Temperature > 32);
-
-            var docQuery = filtered.AsDocumentQuery();
-
-            while (docQuery.HasMoreResults)
+            FeedOptions queryOptions = new FeedOptions
             {
-                var docs = await docQuery.ExecuteNextAsync();
+                MaxItemCount = 500,
+                EnableCrossPartitionQuery = true,
+                EnableScanInQuery = true,
+            };
 
-                foreach (var d in docs)
+            var query = client.CreateDocumentQuery<TelemetryDocDb>(
+                UriFactory.CreateDocumentCollectionUri(Credentials.DocumentDb.DatabaseName, Credentials.DocumentDb.CollectionName),
+                queryOptions)
+                    .Select(d => new TelemetryDocDb { Temperature = d.Temperature, DeviceId = d.DeviceId })
+                    .Where(d => d.Temperature > 32)
+                    .AsDocumentQuery();
+
+            while (query.HasMoreResults)
+            {
+                // Note this returns dynamic.
+                var docs = await query.ExecuteNextAsync();
+
+                foreach (var doc in docs)
                 {
-                    Console.WriteLine($"{d.DeviceId}\t{d.Temperature}");
+                    Console.WriteLine($"{doc.DeviceId}\t{doc.Temperature}");
                 }
             }
         }
@@ -201,15 +218,15 @@ namespace CosmosPerfTests
 
         private DocumentClient getClient()
         {
-            var jsonSerializerSettings = new JsonSerializerSettings
-            {
-                ContractResolver = new CamelCasePropertyNamesContractResolver()
-            };
+            //var jsonSerializerSettings = new JsonSerializerSettings
+            //{
+            //    ContractResolver = new CamelCasePropertyNamesContractResolver()
+            //};
 
             //DocumentClient client = new DocumentClient(new Uri(Credentials.DocumentDb.EndpointUri),
             //    
             client = new DocumentClient(new Uri(Credentials.DocumentDb.EndpointUri),
-               Credentials.DocumentDb.Key, jsonSerializerSettings);
+               Credentials.DocumentDb.Key/* jsonSerializerSettings*/);
 
             return client;
         }

@@ -87,7 +87,7 @@ namespace CosmosPerfTests
 
             // Query sample
             // await ((MongoSample)sample).QueryData();
-            await ((DocumentDb)sample).QueryData();
+            await ((DocumentDb)sample).QueryData3();
 
             watch.Stop();
 
