@@ -4,6 +4,8 @@ namespace CosmosPerfTests
 {
     public class TelemetryDocDb
     {
+        public string Region { get; set; }
+
         public string id { get; set; }
 
         public string DeviceId { get; internal set; }

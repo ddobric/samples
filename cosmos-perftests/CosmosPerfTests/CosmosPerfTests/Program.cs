@@ -66,7 +66,7 @@ namespace CosmosPerfTests
 
             for (int i = 0; i < batchSize; i++)
             {
-                var data = getSampleData<T>();
+                var data = getSampleData<T>(i);
 
                 await sample.SaveTelemetryData(data);
             }
@@ -87,6 +87,7 @@ namespace CosmosPerfTests
 
             // Query sample
             // await ((MongoSample)sample).QueryData();
+            await ((DocumentDb)sample).QueryData();
 
             watch.Stop();
 
@@ -127,7 +128,7 @@ namespace CosmosPerfTests
 
             for (int i = 0; i < batchSize; i++)
             {
-                telList.Add(getSampleData<T>());
+                telList.Add(getSampleData<T>(i));
             }
 
             await sample.SaveTelemetryData(telList.ToArray());
@@ -153,19 +154,18 @@ namespace CosmosPerfTests
 
             await sample.DeleteRecordAsync(telemetryData.ToArray());
 
-
             watch.Stop();
 
             Console.WriteLine($"All records deleted in: {watch.ElapsedMilliseconds}");
-
-
         }
 
         private static Random m_Random = new Random();
 
         private static int m_Incr = 1;
 
-        private static T getSampleData<T>()
+        public static string PartitionKey1 = "DE";
+
+        private static T getSampleData<T>(int i)
         {
             if (typeof(T) == typeof(TelemetryMongo))
             {
@@ -173,7 +173,7 @@ namespace CosmosPerfTests
                 {
                     _id = MongoDB.Bson.ObjectId.GenerateNewId(),
 
-                    DeviceId = $"DEV_{m_Random.Next(1, 1000)}",
+                    DeviceId = $"DEV_{i}",
 
                     Temperature = m_Random.Next(25, 35) + m_Random.NextDouble(),
                 };
@@ -182,8 +182,8 @@ namespace CosmosPerfTests
             {
                 return (T)(object)new TelemetryDocDb()
                 {
-                    DeviceId = $"DEV_{m_Random.Next(1, 1000)}",
-
+                    DeviceId = $"DEV_{i}",
+                    Region = PartitionKey1,
                     Temperature = m_Random.Next(25, 35) + m_Random.NextDouble(),
                 };
             }

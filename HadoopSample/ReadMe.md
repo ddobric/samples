@@ -15,7 +15,7 @@ docker cp TextFile2.txt hadoop-dotnet-master:/TextFile2.txt
 docker exec -it hadoop-dotnet-master bash
 
 ## Copy files to the input location.
-docker cp TextFile1.txt 
+docker cp TextFile3.txt hadoop-dotnet-master:/
 
 ## Move file to HDFS folder
 hadoop fs -put /TextFile1.txt /input/  

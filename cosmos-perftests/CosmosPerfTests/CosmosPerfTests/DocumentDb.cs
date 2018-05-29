@@ -1,4 +1,8 @@
-﻿using Microsoft.Azure.Documents.Client;
+﻿using Microsoft.Azure.Documents;
+using Microsoft.Azure.Documents.Client;
+using Microsoft.Azure.Documents.Linq;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,7 +25,11 @@ namespace CosmosPerfTests
 
             var docUri = UriFactory.CreateDocumentUri(Credentials.DocumentDb.DatabaseName, Credentials.DocumentDb.CollectionName, record.id);
 
-            var book = await client.DeleteDocumentAsync(docUri/*, new RequestOptions { PartitionKey = new PartitionKey(1) }*/);
+            // Use without partition key if partionion key is not set.
+            //var book = await client.DeleteDocumentAsync(docUri/*, new RequestOptions { PartitionKey = new PartitionKey(1) }*/);
+
+            // If partitioning is used 
+            var book = await client.DeleteDocumentAsync(docUri, new RequestOptions { PartitionKey = new PartitionKey(Program.PartitionKey1) });
         }
 
         public async Task DeleteRecordAsync(TelemetryDocDb[] telemetryData)
@@ -32,7 +40,9 @@ namespace CosmosPerfTests
             {
                 var docUri = UriFactory.CreateDocumentUri(Credentials.DocumentDb.DatabaseName, Credentials.DocumentDb.CollectionName, doc.id);
 
-                tasks.Add(client.DeleteDocumentAsync(docUri/*, new RequestOptions { PartitionKey = new PartitionKey(1) }*/));
+                //tasks.Add(client.DeleteDocumentAsync(docUri/*));
+
+                tasks.Add(client.DeleteDocumentAsync(docUri, new RequestOptions { PartitionKey = new PartitionKey(Program.PartitionKey1) }));
             }
 
             Task.WaitAll(tasks.ToArray());
@@ -61,14 +71,100 @@ namespace CosmosPerfTests
 
                 FeedOptions queryOptions = new FeedOptions { MaxItemCount = 500, EnableCrossPartitionQuery = true };
 
-                IQueryable<TelemetryDocDb> books = client.CreateDocumentQuery<TelemetryDocDb>(
+                IQueryable<TelemetryDocDb> records = client.CreateDocumentQuery<TelemetryDocDb>(
                    UriFactory.CreateDocumentCollectionUri(Credentials.DocumentDb.DatabaseName, Credentials.DocumentDb.CollectionName),
                    $"SELECT * FROM c",
                    queryOptions);
 
-                return books.ToList();
+                return records.ToList();
             });
+        }
 
+        /// <summary>
+        /// Demonstrates how to filter data and return all possible properties like etag, _rid, _self etc..
+        /// </summary>
+        internal async Task QueryData()
+        {
+            var client = getClient();
+
+            FeedOptions queryOptions = new FeedOptions { MaxItemCount = 10, EnableCrossPartitionQuery = true, EnableScanInQuery = true, };
+
+            IQueryable<TelemetryDocDb> query = client.CreateDocumentQuery<TelemetryDocDb>(
+               UriFactory.CreateDocumentCollectionUri(Credentials.DocumentDb.DatabaseName, Credentials.DocumentDb.CollectionName), queryOptions);
+
+            var filtered = query.Where(b => b.Temperature > 32);
+
+            var docQuery = filtered.AsDocumentQuery();
+
+            while (docQuery.HasMoreResults)
+            {
+                var docs = await docQuery.ExecuteNextAsync();
+
+                foreach (var d in docs)
+                {
+                    Console.WriteLine($"{d.DeviceId}\t{d.Temperature}");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Demonstrates how to filter data and return all possible properties like etag, _rid, _self etc..
+        /// </summary>
+        internal async Task QueryData3()
+        {
+            var client = getClient();
+
+            FeedOptions queryOptions = new FeedOptions { MaxItemCount = 500, EnableCrossPartitionQuery = true, EnableScanInQuery = true, };
+
+            IQueryable<TelemetryDocDb> query = client.CreateDocumentQuery<TelemetryDocDb>(
+               UriFactory.CreateDocumentCollectionUri(Credentials.DocumentDb.DatabaseName, Credentials.DocumentDb.CollectionName), queryOptions);
+
+            var filtered = query.Where(b => b.Temperature > 32);
+
+            var docQuery = filtered.AsDocumentQuery();
+
+            while (docQuery.HasMoreResults)
+            {
+                var docs = await docQuery.ExecuteNextAsync();
+
+                foreach (var d in docs)
+                {
+                    Console.WriteLine($"{d.DeviceId}\t{d.Temperature}");
+                }
+            }
+        }
+
+        /// <summary>
+        /// This sample does not map correctlly TelemetryDocDb properties.
+        /// </summary>
+        /// <returns></returns>
+        internal async Task QueryData2()
+        {
+            var client = getClient();
+
+            FeedOptions queryOptions = new FeedOptions
+            {
+                MaxItemCount = 500,
+                EnableCrossPartitionQuery = true,
+                EnableScanInQuery = true,
+            };
+            
+            var query = client.CreateDocumentQuery<TelemetryDocDb>(
+                UriFactory.CreateDocumentCollectionUri(Credentials.DocumentDb.DatabaseName, Credentials.DocumentDb.CollectionName),
+                queryOptions)
+                    .Select(d => new TelemetryDocDb { id = d.id, Temperature = d.Temperature, DeviceId = d.DeviceId })
+                    .Where(d => d.Temperature > 32)
+                    .AsDocumentQuery();
+
+            while (query.HasMoreResults)
+            {
+                var docs = await query.ExecuteNextAsync<TelemetryDocDb>();
+
+                foreach (var doc in docs)
+                {
+                    Console.WriteLine($"{doc.DeviceId}\t{doc.Temperature}");
+                }
+            }
         }
 
         public async Task SaveTelemetryData(TelemetryDocDb telemetryEvent)
@@ -100,13 +196,20 @@ namespace CosmosPerfTests
             this.disposed = true;
         }
 
-        DocumentClient client = new DocumentClient(new Uri(Credentials.DocumentDb.EndpointUri),
-               Credentials.DocumentDb.Key);
+        DocumentClient client;// = new DocumentClient(new Uri(Credentials.DocumentDb.EndpointUri),
+                              //Credentials.DocumentDb.Key);
 
         private DocumentClient getClient()
         {
+            var jsonSerializerSettings = new JsonSerializerSettings
+            {
+                ContractResolver = new CamelCasePropertyNamesContractResolver()
+            };
+
             //DocumentClient client = new DocumentClient(new Uri(Credentials.DocumentDb.EndpointUri),
-            //    Credentials.DocumentDb.Key);
+            //    
+            client = new DocumentClient(new Uri(Credentials.DocumentDb.EndpointUri),
+               Credentials.DocumentDb.Key, jsonSerializerSettings);
 
             return client;
         }
