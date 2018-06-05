@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -7,11 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" /> 
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\StandardLibrary\StandardLibrary.csproj" />
-  </ItemGroup>
+    <ProjectReference Include="..\StandardLibrary\StandardLibrary.csproj" />  
+  </ItemGroup> 
 
 </Project>
