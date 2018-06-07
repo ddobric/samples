@@ -63,8 +63,21 @@ using System.Threading.Tasks;
 [MarkdownExporter, AsciiDocExporter, HtmlExporter, CsvExporter, RPlotExporter]
 public class BenchmarkTests
 {
-  
+
     private static int[] s_intArray = Enumerable.Range(0, 100_000).ToArray();
+
+    [GlobalSetup]
+    public void InitElements()
+    {
+        int num = 10000;
+
+        m_Elements = new MyStruct[num];
+
+        for (int i = 0; i < num; i++)
+        {
+            m_Elements[i] = new MyStruct() { X = i, Y = i * i };
+        }
+    }
 
     [Benchmark]
     public int EqualityComparerInt32()
@@ -119,14 +132,13 @@ public class BenchmarkTests
     }
 
 
-
     [Benchmark(OperationsPerInvoke = 10_000_000)]
     public void AddByInType()
     {
         for (int i = 0; i < m_Cycles; i++)
         {
             add_by_in_type(in sStruct);
-        }      
+        }
     }
 
 
@@ -136,7 +148,7 @@ public class BenchmarkTests
         for (int i = 0; i < m_Cycles; i++)
         {
             add_by_ref_type(ref sStruct);
-        }      
+        }
     }
 
 
@@ -156,5 +168,57 @@ public class BenchmarkTests
     }
     #endregion
 
+    #region Ref_By_Type
 
+    private MyStruct[] m_Elements;
+
+    [Benchmark(OperationsPerInvoke = 10_000_000)]
+    public void FindElementByRef()
+    {
+        for (int i = 0; i < m_Cycles; i++)
+        {
+            ref var result = ref findElement_by_ref(10);
+        }
+    }
+
+    private ref MyStruct findElement_by_ref(double x)
+    {
+        ref MyStruct localRet = ref m_Elements[0];
+
+        var indx = m_Elements.Length - 1;
+
+        while ((indx > 0) && m_Elements[indx].X == x)
+        {
+            localRet = ref m_Elements[indx];
+            indx--;
+        }
+
+        return ref localRet;
+    }
+
+
+    [Benchmark(OperationsPerInvoke = 10_000_000)]
+    public void FindElementByValue()
+    {
+        for (int i = 0; i < m_Cycles; i++)
+        {
+            var result = findElement_by_value(10);
+        }
+    }
+
+    private MyStruct findElement_by_value(double x)
+    {
+        MyStruct localRet = m_Elements[0];
+
+        var indx = m_Elements.Length - 1;
+
+        while ((indx > 0) && m_Elements[indx].X == x)
+        {
+            localRet = m_Elements[indx];
+            indx--;
+        }
+
+        return localRet;
+    }
+    #endregion
 }
