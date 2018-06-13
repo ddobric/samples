@@ -19,6 +19,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestFiles", "TestFiles", "{
 		TextFile2.txt = TextFile2.txt
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HdfsClient", "HdfsClient\HdfsClient.csproj", "{2B76F9BC-BE27-4978-A0E5-6739867D038A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{4711C408-053F-44CA-A922-A45FFFA8EB8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4711C408-053F-44CA-A922-A45FFFA8EB8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4711C408-053F-44CA-A922-A45FFFA8EB8F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B76F9BC-BE27-4978-A0E5-6739867D038A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B76F9BC-BE27-4978-A0E5-6739867D038A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B76F9BC-BE27-4978-A0E5-6739867D038A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B76F9BC-BE27-4978-A0E5-6739867D038A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
