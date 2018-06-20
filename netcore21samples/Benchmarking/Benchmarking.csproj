@@ -25,4 +25,8 @@
     <PackageReference Include="BenchmarkDotNet" Version="0.10.14" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="BenchmarkDotNet.Artifacts\results\" />
+  </ItemGroup>
+
 </Project>

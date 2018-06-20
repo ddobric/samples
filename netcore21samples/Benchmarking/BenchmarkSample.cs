@@ -1,35 +1,11 @@
 ﻿using BenchmarkDotNet.Attributes;
-using BenchmarkDotNet.Attributes.Columns;
 using BenchmarkDotNet.Attributes.Exporters;
 using BenchmarkDotNet.Attributes.Jobs;
-using BenchmarkDotNet.Columns;
-using BenchmarkDotNet.Configs;
-using BenchmarkDotNet.Diagnosers;
-using BenchmarkDotNet.Environments;
 using BenchmarkDotNet.Exporters;
-using BenchmarkDotNet.Jobs;
-using BenchmarkDotNet.Loggers;
-using BenchmarkDotNet.Order;
-using BenchmarkDotNet.Reports;
 using BenchmarkDotNet.Running;
-using BenchmarkDotNet.Toolchains.CsProj;
-using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Net.Security;
-using System.Net.Sockets;
-using System.Numerics;
-using System.Runtime.CompilerServices;
-using System.Security.Authentication;
-using System.Security.Cryptography;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading;
-using System.Threading.Tasks;
 #pragma warning disable 0618
 
 //public class MainConfig : ManualConfig
@@ -63,13 +39,15 @@ using System.Threading.Tasks;
 [MarkdownExporter, AsciiDocExporter, HtmlExporter, CsvExporter, RPlotExporter]
 public class BenchmarkTests
 {
-
+  
     private static int[] s_intArray = Enumerable.Range(0, 100_000).ToArray();
 
-    [GlobalSetup]
-    public void InitElements()
+    private static MyStruct[] m_Elements;
+
+    //[GlobalSetup]
+    static BenchmarkTests()
     {
-        int num = 10000;
+        int num = 1000;
 
         m_Elements = new MyStruct[num];
 
@@ -118,11 +96,12 @@ public class BenchmarkTests
 
     }
 
+   
     MyStruct sStruct = new MyStruct() { X = 1.1, Y = 2.2 };
 
-    int m_Cycles = 100000;
+    int m_Cycles = 10000;
 
-    [Benchmark(OperationsPerInvoke = 10_000_000)]
+    [Benchmark(OperationsPerInvoke = 10_000)]
     public void AddByType()
     {
         for (int i = 0; i < m_Cycles; i++)
@@ -132,7 +111,7 @@ public class BenchmarkTests
     }
 
 
-    [Benchmark(OperationsPerInvoke = 10_000_000)]
+    [Benchmark(OperationsPerInvoke = 10_000)]
     public void AddByInType()
     {
         for (int i = 0; i < m_Cycles; i++)
@@ -142,7 +121,7 @@ public class BenchmarkTests
     }
 
 
-    [Benchmark(OperationsPerInvoke = 10_000_000)]
+    [Benchmark(OperationsPerInvoke = 10_000)]
     public void AddByRefType()
     {
         for (int i = 0; i < m_Cycles; i++)
@@ -170,9 +149,10 @@ public class BenchmarkTests
 
     #region Ref_By_Type
 
-    private MyStruct[] m_Elements;
 
-    [Benchmark(OperationsPerInvoke = 10_000_000)]
+
+    //[Benchmark(OperationsPerInvoke = 10_000)]
+   [Benchmark()]
     public void FindElementByRef()
     {
         for (int i = 0; i < m_Cycles; i++)
@@ -197,7 +177,8 @@ public class BenchmarkTests
     }
 
 
-    [Benchmark(OperationsPerInvoke = 10_000_000)]
+    //[Benchmark(OperationsPerInvoke = 10_000)]
+    [Benchmark()]
     public void FindElementByValue()
     {
         for (int i = 0; i < m_Cycles; i++)
@@ -220,5 +201,7 @@ public class BenchmarkTests
 
         return localRet;
     }
+ 
     #endregion
+    
 }

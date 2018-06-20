@@ -31,8 +31,8 @@ namespace HdfsClient
                 {
                     Console.WriteLine("-----------------------------------------------------------------");
                     Console.WriteLine("t" + f.PathSuffix);
-                    var hdfsFile = hdfsClient.OpenFile($"{folderName}/{f.PathSuffix}").Result;
-                    var fileContent = hdfsFile.Content.ReadAsStringAsync().Result;
+                   // var hdfsFile = hdfsClient.OpenFile($"{folderName}/{f.PathSuffix}").Result;
+                    //var fileContent = hdfsFile.Content.ReadAsStringAsync().Result;
 
                 }
              )).Wait();

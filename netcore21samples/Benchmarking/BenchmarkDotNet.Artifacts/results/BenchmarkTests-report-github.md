@@ -9,20 +9,96 @@ Intel Core i7-8650U CPU 1.90GHz (Kaby Lake R), 1 CPU, 8 logical and 4 physical c
 
 
 ```
-|                Method |     Job | Runtime | IsBaseline | LaunchCount | RunStrategy | TargetCount | UnrollFactor | WarmupCount |              Mean |       Error |      StdDev |            Median | Scaled | ScaledSD |
-|---------------------- |-------- |-------- |----------- |------------ |------------ |------------ |------------- |------------ |------------------:|------------:|------------:|------------------:|-------:|---------:|
-| EqualityComparerInt32 | Default |     Clr |       True |     Default |     Default |     Default |           16 |     Default |                NA |          NA |          NA |                NA |      ? |        ? |
-| EqualityComparerInt32 |    Core |    Core |    Default |     Default |     Default |     Default |           16 |     Default |    60,869.6704 ns | 381.8457 ns | 338.4963 ns |    60,975.8411 ns |      ? |        ? |
-| EqualityComparerInt32 | DryCore |    Core |    Default |           1 |   ColdStart |           1 |            1 |           1 | 5,440,400.0000 ns |          NA |   0.0000 ns | 5,440,400.0000 ns |      ? |        ? |
-| EqualityComparerInt32 |    Mono |    Mono |    Default |     Default |     Default |     Default |           16 |     Default |                NA |          NA |          NA |                NA |      ? |        ? |
-|                       |         |         |            |             |             |             |              |             |                   |             |             |                   |        |          |
-|             AddByType | Default |     Clr |       True |     Default |     Default |     Default |           16 |     Default |                NA |          NA |          NA |                NA |      ? |        ? |
-|             AddByType |    Core |    Core |    Default |     Default |     Default |     Default |           16 |     Default |         0.0000 ns |   0.0000 ns |   0.0000 ns |         0.0000 ns |      ? |        ? |
-|             AddByType | DryCore |    Core |    Default |           1 |   ColdStart |           1 |            1 |           1 |         0.1047 ns |          NA |   0.0000 ns |         0.1047 ns |      ? |        ? |
-|             AddByType |    Mono |    Mono |    Default |     Default |     Default |     Default |           16 |     Default |                NA |          NA |          NA |                NA |      ? |        ? |
+|                Method |     Job | Runtime | IsBaseline | LaunchCount | RunStrategy | TargetCount | UnrollFactor | WarmupCount |                Mean |           Error |         StdDev |              Median | Scaled | ScaledSD |
+|---------------------- |-------- |-------- |----------- |------------ |------------ |------------ |------------- |------------ |--------------------:|----------------:|---------------:|--------------------:|-------:|---------:|
+| EqualityComparerInt32 | Default |     Clr |       True |     Default |     Default |     Default |           16 |     Default |                  NA |              NA |             NA |                  NA |      ? |        ? |
+|                       |         |         |            |             |             |             |              |             |                     |                 |                |                     |        |          |
+|                Time50 | Default |     Clr |       True |     Default |     Default |     Default |           16 |     Default |                  NA |              NA |             NA |                  NA |      ? |        ? |
+|                       |         |         |            |             |             |             |              |             |                     |                 |                |                     |        |          |
+|               Time100 | Default |     Clr |       True |     Default |     Default |     Default |           16 |     Default |                  NA |              NA |             NA |                  NA |      ? |        ? |
+|                       |         |         |            |             |             |             |              |             |                     |                 |                |                     |        |          |
+|               Time150 | Default |     Clr |       True |     Default |     Default |     Default |           16 |     Default |                  NA |              NA |             NA |                  NA |      ? |        ? |
+|                       |         |         |            |             |             |             |              |             |                     |                 |                |                     |        |          |
+|             AddByType | Default |     Clr |       True |     Default |     Default |     Default |           16 |     Default |                  NA |              NA |             NA |                  NA |      ? |        ? |
+|                       |         |         |            |             |             |             |              |             |                     |                 |                |                     |        |          |
+|           AddByInType | Default |     Clr |       True |     Default |     Default |     Default |           16 |     Default |                  NA |              NA |             NA |                  NA |      ? |        ? |
+|                       |         |         |            |             |             |             |              |             |                     |                 |                |                     |        |          |
+|          AddByRefType | Default |     Clr |       True |     Default |     Default |     Default |           16 |     Default |                  NA |              NA |             NA |                  NA |      ? |        ? |
+|                       |         |         |            |             |             |             |              |             |                     |                 |                |                     |        |          |
+|      FindElementByRef | Default |     Clr |       True |     Default |     Default |     Default |           16 |     Default |                  NA |              NA |             NA |                  NA |      ? |        ? |
+|                       |         |         |            |             |             |             |              |             |                     |                 |                |                     |        |          |
+|    FindElementByValue | Default |     Clr |       True |     Default |     Default |     Default |           16 |     Default |                  NA |              NA |             NA |                  NA |      ? |        ? |
+|                       |         |         |            |             |             |             |              |             |                     |                 |                |                     |        |          |
+| EqualityComparerInt32 |    Core |    Core |    Default |     Default |     Default |     Default |           16 |     Default |      63,923.4052 ns |   1,257.7000 ns |  1,920.6408 ns |      63,605.2490 ns |      ? |        ? |
+|                       |         |         |            |             |             |             |              |             |                     |                 |                |                     |        |          |
+|                Time50 |    Core |    Core |    Default |     Default |     Default |     Default |           16 |     Default |  50,866,746.6667 ns |  86,218.1552 ns | 80,648.5081 ns |  50,853,935.0000 ns |      ? |        ? |
+|                       |         |         |            |             |             |             |              |             |                     |                 |                |                     |        |          |
+|               Time100 |    Core |    Core |    Default |     Default |     Default |     Default |           16 |     Default | 100,853,887.1875 ns | 101,527.0344 ns | 94,968.4418 ns | 100,848,427.1875 ns |   1.00 |     0.00 |
+|                       |         |         |            |             |             |             |              |             |                     |                 |                |                     |        |          |
+|               Time150 |    Core |    Core |    Default |     Default |     Default |     Default |           16 |     Default | 150,775,739.6875 ns |  79,171.5210 ns | 74,057.0827 ns | 150,751,753.4375 ns |      ? |        ? |
+|                       |         |         |            |             |             |             |              |             |                     |                 |                |                     |        |          |
+|             AddByType |    Core |    Core |    Default |     Default |     Default |     Default |           16 |     Default |           0.4646 ns |       0.0176 ns |      0.0503 ns |           0.4517 ns |      ? |        ? |
+|                       |         |         |            |             |             |             |              |             |                     |                 |                |                     |        |          |
+|           AddByInType |    Core |    Core |    Default |     Default |     Default |     Default |           16 |     Default |           0.3936 ns |       0.0082 ns |      0.0178 ns |           0.3864 ns |      ? |        ? |
+|                       |         |         |            |             |             |             |              |             |                     |                 |                |                     |        |          |
+|          AddByRefType |    Core |    Core |    Default |     Default |     Default |     Default |           16 |     Default |           0.3811 ns |       0.0040 ns |      0.0035 ns |           0.3809 ns |      ? |        ? |
+|                       |         |         |            |             |             |             |              |             |                     |                 |                |                     |        |          |
+|      FindElementByRef |    Core |    Core |    Default |     Default |     Default |     Default |           16 |     Default |      28,553.7784 ns |     512.4073 ns |    427.8833 ns |      28,377.9462 ns |      ? |        ? |
+|                       |         |         |            |             |             |             |              |             |                     |                 |                |                     |        |          |
+|    FindElementByValue |    Core |    Core |    Default |     Default |     Default |     Default |           16 |     Default |      37,852.3577 ns |     800.2346 ns |  2,217.4464 ns |      37,355.7670 ns |      ? |        ? |
+|                       |         |         |            |             |             |             |              |             |                     |                 |                |                     |        |          |
+| EqualityComparerInt32 | DryCore |    Core |    Default |           1 |   ColdStart |           1 |            1 |           1 |   1,184,500.0000 ns |              NA |      0.0000 ns |   1,184,500.0000 ns |      ? |        ? |
+|                       |         |         |            |             |             |             |              |             |                     |                 |                |                     |        |          |
+|                Time50 | DryCore |    Core |    Default |           1 |   ColdStart |           1 |            1 |           1 |  51,910,900.0000 ns |              NA |      0.0000 ns |  51,910,900.0000 ns |      ? |        ? |
+|                       |         |         |            |             |             |             |              |             |                     |                 |                |                     |        |          |
+|               Time100 | DryCore |    Core |    Default |           1 |   ColdStart |           1 |            1 |           1 | 102,253,200.0000 ns |              NA |      0.0000 ns | 102,253,200.0000 ns |   1.00 |     0.00 |
+|                       |         |         |            |             |             |             |              |             |                     |                 |                |                     |        |          |
+|               Time150 | DryCore |    Core |    Default |           1 |   ColdStart |           1 |            1 |           1 | 153,009,500.0000 ns |              NA |      0.0000 ns | 153,009,500.0000 ns |      ? |        ? |
+|                       |         |         |            |             |             |             |              |             |                     |                 |                |                     |        |          |
+|             AddByType | DryCore |    Core |    Default |           1 |   ColdStart |           1 |            1 |           1 |          54.3900 ns |              NA |      0.0000 ns |          54.3900 ns |      ? |        ? |
+|                       |         |         |            |             |             |             |              |             |                     |                 |                |                     |        |          |
+|           AddByInType | DryCore |    Core |    Default |           1 |   ColdStart |           1 |            1 |           1 |          56.2900 ns |              NA |      0.0000 ns |          56.2900 ns |      ? |        ? |
+|                       |         |         |            |             |             |             |              |             |                     |                 |                |                     |        |          |
+|          AddByRefType | DryCore |    Core |    Default |           1 |   ColdStart |           1 |            1 |           1 |          56.5600 ns |              NA |      0.0000 ns |          56.5600 ns |      ? |        ? |
+|                       |         |         |            |             |             |             |              |             |                     |                 |                |                     |        |          |
+|      FindElementByRef | DryCore |    Core |    Default |           1 |   ColdStart |           1 |            1 |           1 |     897,500.0000 ns |              NA |      0.0000 ns |     897,500.0000 ns |      ? |        ? |
+|                       |         |         |            |             |             |             |              |             |                     |                 |                |                     |        |          |
+|    FindElementByValue | DryCore |    Core |    Default |           1 |   ColdStart |           1 |            1 |           1 |   1,039,600.0000 ns |              NA |      0.0000 ns |   1,039,600.0000 ns |      ? |        ? |
+|                       |         |         |            |             |             |             |              |             |                     |                 |                |                     |        |          |
+| EqualityComparerInt32 |    Mono |    Mono |    Default |     Default |     Default |     Default |           16 |     Default |                  NA |              NA |             NA |                  NA |      ? |        ? |
+|                       |         |         |            |             |             |             |              |             |                     |                 |                |                     |        |          |
+|                Time50 |    Mono |    Mono |    Default |     Default |     Default |     Default |           16 |     Default |                  NA |              NA |             NA |                  NA |      ? |        ? |
+|                       |         |         |            |             |             |             |              |             |                     |                 |                |                     |        |          |
+|               Time100 |    Mono |    Mono |    Default |     Default |     Default |     Default |           16 |     Default |                  NA |              NA |             NA |                  NA |      ? |        ? |
+|                       |         |         |            |             |             |             |              |             |                     |                 |                |                     |        |          |
+|               Time150 |    Mono |    Mono |    Default |     Default |     Default |     Default |           16 |     Default |                  NA |              NA |             NA |                  NA |      ? |        ? |
+|                       |         |         |            |             |             |             |              |             |                     |                 |                |                     |        |          |
+|             AddByType |    Mono |    Mono |    Default |     Default |     Default |     Default |           16 |     Default |                  NA |              NA |             NA |                  NA |      ? |        ? |
+|                       |         |         |            |             |             |             |              |             |                     |                 |                |                     |        |          |
+|           AddByInType |    Mono |    Mono |    Default |     Default |     Default |     Default |           16 |     Default |                  NA |              NA |             NA |                  NA |      ? |        ? |
+|                       |         |         |            |             |             |             |              |             |                     |                 |                |                     |        |          |
+|          AddByRefType |    Mono |    Mono |    Default |     Default |     Default |     Default |           16 |     Default |                  NA |              NA |             NA |                  NA |      ? |        ? |
+|                       |         |         |            |             |             |             |              |             |                     |                 |                |                     |        |          |
+|      FindElementByRef |    Mono |    Mono |    Default |     Default |     Default |     Default |           16 |     Default |                  NA |              NA |             NA |                  NA |      ? |        ? |
+|                       |         |         |            |             |             |             |              |             |                     |                 |                |                     |        |          |
+|    FindElementByValue |    Mono |    Mono |    Default |     Default |     Default |     Default |           16 |     Default |                  NA |              NA |             NA |                  NA |      ? |        ? |
 
 Benchmarks with issues:
-  BenchmarkTests.EqualityComparerInt32: Job-MGHISP(Runtime=Clr, IsBaseline=True)
+  BenchmarkTests.EqualityComparerInt32: Job-BJYGHY(Runtime=Clr, IsBaseline=True)
+  BenchmarkTests.Time50: Job-BJYGHY(Runtime=Clr, IsBaseline=True)
+  BenchmarkTests.Time100: Job-BJYGHY(Runtime=Clr, IsBaseline=True)
+  BenchmarkTests.Time150: Job-BJYGHY(Runtime=Clr, IsBaseline=True)
+  BenchmarkTests.AddByType: Job-BJYGHY(Runtime=Clr, IsBaseline=True)
+  BenchmarkTests.AddByInType: Job-BJYGHY(Runtime=Clr, IsBaseline=True)
+  BenchmarkTests.AddByRefType: Job-BJYGHY(Runtime=Clr, IsBaseline=True)
+  BenchmarkTests.FindElementByRef: Job-BJYGHY(Runtime=Clr, IsBaseline=True)
+  BenchmarkTests.FindElementByValue: Job-BJYGHY(Runtime=Clr, IsBaseline=True)
   BenchmarkTests.EqualityComparerInt32: Mono(Runtime=Mono)
-  BenchmarkTests.AddByType: Job-MGHISP(Runtime=Clr, IsBaseline=True)
+  BenchmarkTests.Time50: Mono(Runtime=Mono)
+  BenchmarkTests.Time100: Mono(Runtime=Mono)
+  BenchmarkTests.Time150: Mono(Runtime=Mono)
   BenchmarkTests.AddByType: Mono(Runtime=Mono)
+  BenchmarkTests.AddByInType: Mono(Runtime=Mono)
+  BenchmarkTests.AddByRefType: Mono(Runtime=Mono)
+  BenchmarkTests.FindElementByRef: Mono(Runtime=Mono)
+  BenchmarkTests.FindElementByValue: Mono(Runtime=Mono)

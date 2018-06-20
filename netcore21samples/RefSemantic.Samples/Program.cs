@@ -11,6 +11,7 @@ namespace RefSemantic.Samples
             MyStruct s1 = new MyStruct() { X = 1.1, Y = 2.2 };
 
             PassByRef(in s1);
+            ReturnRefSample1();
 
             SpanSample1();
             SpanSample2();
@@ -31,6 +32,13 @@ namespace RefSemantic.Samples
 
             public double Y;
         }
+
+        //public readonly ref struct Span<T>
+        //{
+        //    private readonly ref T _ptr;
+        //    private readonly int _length;
+
+        //}
 
         public static double PassByRef(in MyStruct s)
         {
@@ -56,10 +64,17 @@ namespace RefSemantic.Samples
 
             bytes[2] = 45; // OK
 
+            // Implicite cast supported
+            Span<byte> newSpan = buff;
+
             Console.WriteLine($"bytes[2] {bytes[2]}");
 
         }
 
+
+        /// <summary>
+        /// Heap allocation with span<>
+        /// </summary>
         public static void SpanSample2()
         {
             IntPtr ptr = Marshal.AllocHGlobal(1);
@@ -77,15 +92,48 @@ namespace RefSemantic.Samples
 
         public static void SpanSample3()
         {
-            Span<MyStruct> spanOfStructs = new MyStruct[1];
-            spanOfStructs[0].X = 42;
-            Console.WriteLine($"spanOfStructs[0].X: {spanOfStructs[0].X}");
+            
+            #region Element access in the List<>
 
             var listOfStructs = new List<MyStruct> { new MyStruct() };
 
+            // Does not compile.
+            // You need first to access element, which will do the copy of structure=>slow operation
             //listOfStructs[0].X = 42; // Error CS1612: the return value is not a variable
+            MyStruct s = listOfStructs[0];
+            s.X = 42;
+
+            #endregion
+
+            #region Solution with Span
+
+            Span<MyStruct> spanOfStructs = new MyStruct[1];
+
+            spanOfStructs[0].X = 42;
+
+            Console.WriteLine($"spanOfStructs[0].X: {spanOfStructs[0].X}");
+
+            #endregion
+
+            #region interiors
+
+            var arr = new byte[100];
+
+            // Create Span<T> from Array from fixed position.
+            Span<byte> interiorRef1 = arr.AsSpan().Slice(start: 20);
+
+            // Create Span<T> from Array from fixed position and length.
+            Span<byte> interiorRef2 = new Span<byte>(arr, 20, arr.Length - 20);
+
+            //Span<byte> interiorRef3 =
+            //  Span<byte>.DangerousCreate(arr, ref arr[20], arr.Length – 20);
+            #endregion
         }
 
+
+        /// <summary>
+        /// Strings implementsd Span<string> now.
+        /// </summary>
         public static void SpanSample4()
         {
             string str = "hello, world";
@@ -93,6 +141,23 @@ namespace RefSemantic.Samples
             var worldSpan = str.AsSpan().Slice(start: 7, length: 5); // No allocation
             Console.WriteLine(worldSpan[0]);
             //worldSpan[0] = 'a'; // Error CS0200: indexer cannot be assigned to
+        }
+
+        private static MyStruct[] m_List = new MyStruct[] { new MyStruct { X = 1 },
+                                                     new MyStruct { X = 2 },
+                                                     new MyStruct { X = 3 } };
+
+       // private static Span<MyStruct> m_SpanList = new Span<MyStruct>(null);
+
+        public static void ReturnRefSample1()
+        {
+            var res = getElement(1);
+            res.X = 77;
+        }
+
+        private static ref MyStruct getElement(int k)
+        {
+            return ref m_List[k];
         }
         #endregion
     }

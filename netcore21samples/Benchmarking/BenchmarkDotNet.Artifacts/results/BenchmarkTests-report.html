@@ -23,16 +23,44 @@ Intel Core i7-8650U CPU 1.90GHz (Kaby Lake R), 1 CPU, 8 logical and 4 physical c
 <pre><code></code></pre>
 
 <table>
-<thead><tr><th>         Method</th><th>Job</th><th>Runtime</th><th>IsBaseline</th><th>LaunchCount</th><th>RunStrategy</th><th>TargetCount</th><th>UnrollFactor</th><th>WarmupCount</th><th>       Mean</th><th>Error</th><th>StdDev</th><th>     Median</th><th>Scaled</th><th>ScaledSD</th>
+<thead><tr><th>         Method</th><th>Job</th><th>Runtime</th><th>IsBaseline</th><th>LaunchCount</th><th>RunStrategy</th><th>TargetCount</th><th>UnrollFactor</th><th>WarmupCount</th><th>         Mean</th><th>    Error</th><th>  StdDev</th><th>       Median</th><th>Scaled</th><th>ScaledSD</th>
 </tr>
 </thead><tbody><tr><td>EqualityComparerInt32</td><td>Default</td><td>Clr</td><td>True</td><td>Default</td><td>Default</td><td>Default</td><td>16</td><td>Default</td><td>NA</td><td>NA</td><td>NA</td><td>NA</td><td>?</td><td>?</td>
-</tr><tr><td>EqualityComparerInt32</td><td>Core</td><td>Core</td><td>Default</td><td>Default</td><td>Default</td><td>Default</td><td>16</td><td>Default</td><td>60,869.6704 ns</td><td>381.8457 ns</td><td>338.4963 ns</td><td>60,975.8411 ns</td><td>?</td><td>?</td>
-</tr><tr><td>EqualityComparerInt32</td><td>DryCore</td><td>Core</td><td>Default</td><td>1</td><td>ColdStart</td><td>1</td><td>1</td><td>1</td><td>5,440,400.0000 ns</td><td>NA</td><td>0.0000 ns</td><td>5,440,400.0000 ns</td><td>?</td><td>?</td>
-</tr><tr><td>EqualityComparerInt32</td><td>Mono</td><td>Mono</td><td>Default</td><td>Default</td><td>Default</td><td>Default</td><td>16</td><td>Default</td><td>NA</td><td>NA</td><td>NA</td><td>NA</td><td>?</td><td>?</td>
+</tr><tr><td>Time50</td><td>Default</td><td>Clr</td><td>True</td><td>Default</td><td>Default</td><td>Default</td><td>16</td><td>Default</td><td>NA</td><td>NA</td><td>NA</td><td>NA</td><td>?</td><td>?</td>
+</tr><tr><td>Time100</td><td>Default</td><td>Clr</td><td>True</td><td>Default</td><td>Default</td><td>Default</td><td>16</td><td>Default</td><td>NA</td><td>NA</td><td>NA</td><td>NA</td><td>?</td><td>?</td>
+</tr><tr><td>Time150</td><td>Default</td><td>Clr</td><td>True</td><td>Default</td><td>Default</td><td>Default</td><td>16</td><td>Default</td><td>NA</td><td>NA</td><td>NA</td><td>NA</td><td>?</td><td>?</td>
 </tr><tr><td>AddByType</td><td>Default</td><td>Clr</td><td>True</td><td>Default</td><td>Default</td><td>Default</td><td>16</td><td>Default</td><td>NA</td><td>NA</td><td>NA</td><td>NA</td><td>?</td><td>?</td>
-</tr><tr><td>AddByType</td><td>Core</td><td>Core</td><td>Default</td><td>Default</td><td>Default</td><td>Default</td><td>16</td><td>Default</td><td>0.0000 ns</td><td>0.0000 ns</td><td>0.0000 ns</td><td>0.0000 ns</td><td>?</td><td>?</td>
-</tr><tr><td>AddByType</td><td>DryCore</td><td>Core</td><td>Default</td><td>1</td><td>ColdStart</td><td>1</td><td>1</td><td>1</td><td>0.1047 ns</td><td>NA</td><td>0.0000 ns</td><td>0.1047 ns</td><td>?</td><td>?</td>
+</tr><tr><td>AddByInType</td><td>Default</td><td>Clr</td><td>True</td><td>Default</td><td>Default</td><td>Default</td><td>16</td><td>Default</td><td>NA</td><td>NA</td><td>NA</td><td>NA</td><td>?</td><td>?</td>
+</tr><tr><td>AddByRefType</td><td>Default</td><td>Clr</td><td>True</td><td>Default</td><td>Default</td><td>Default</td><td>16</td><td>Default</td><td>NA</td><td>NA</td><td>NA</td><td>NA</td><td>?</td><td>?</td>
+</tr><tr><td>FindElementByRef</td><td>Default</td><td>Clr</td><td>True</td><td>Default</td><td>Default</td><td>Default</td><td>16</td><td>Default</td><td>NA</td><td>NA</td><td>NA</td><td>NA</td><td>?</td><td>?</td>
+</tr><tr><td>FindElementByValue</td><td>Default</td><td>Clr</td><td>True</td><td>Default</td><td>Default</td><td>Default</td><td>16</td><td>Default</td><td>NA</td><td>NA</td><td>NA</td><td>NA</td><td>?</td><td>?</td>
+</tr><tr><td>EqualityComparerInt32</td><td>Core</td><td>Core</td><td>Default</td><td>Default</td><td>Default</td><td>Default</td><td>16</td><td>Default</td><td>63,923.4052 ns</td><td>1,257.7000 ns</td><td>1,920.6408 ns</td><td>63,605.2490 ns</td><td>?</td><td>?</td>
+</tr><tr><td>Time50</td><td>Core</td><td>Core</td><td>Default</td><td>Default</td><td>Default</td><td>Default</td><td>16</td><td>Default</td><td>50,866,746.6667 ns</td><td>86,218.1552 ns</td><td>80,648.5081 ns</td><td>50,853,935.0000 ns</td><td>?</td><td>?</td>
+</tr><tr><td>Time100</td><td>Core</td><td>Core</td><td>Default</td><td>Default</td><td>Default</td><td>Default</td><td>16</td><td>Default</td><td>100,853,887.1875 ns</td><td>101,527.0344 ns</td><td>94,968.4418 ns</td><td>100,848,427.1875 ns</td><td>1.00</td><td>0.00</td>
+</tr><tr><td>Time150</td><td>Core</td><td>Core</td><td>Default</td><td>Default</td><td>Default</td><td>Default</td><td>16</td><td>Default</td><td>150,775,739.6875 ns</td><td>79,171.5210 ns</td><td>74,057.0827 ns</td><td>150,751,753.4375 ns</td><td>?</td><td>?</td>
+</tr><tr><td>AddByType</td><td>Core</td><td>Core</td><td>Default</td><td>Default</td><td>Default</td><td>Default</td><td>16</td><td>Default</td><td>0.4646 ns</td><td>0.0176 ns</td><td>0.0503 ns</td><td>0.4517 ns</td><td>?</td><td>?</td>
+</tr><tr><td>AddByInType</td><td>Core</td><td>Core</td><td>Default</td><td>Default</td><td>Default</td><td>Default</td><td>16</td><td>Default</td><td>0.3936 ns</td><td>0.0082 ns</td><td>0.0178 ns</td><td>0.3864 ns</td><td>?</td><td>?</td>
+</tr><tr><td>AddByRefType</td><td>Core</td><td>Core</td><td>Default</td><td>Default</td><td>Default</td><td>Default</td><td>16</td><td>Default</td><td>0.3811 ns</td><td>0.0040 ns</td><td>0.0035 ns</td><td>0.3809 ns</td><td>?</td><td>?</td>
+</tr><tr><td>FindElementByRef</td><td>Core</td><td>Core</td><td>Default</td><td>Default</td><td>Default</td><td>Default</td><td>16</td><td>Default</td><td>28,553.7784 ns</td><td>512.4073 ns</td><td>427.8833 ns</td><td>28,377.9462 ns</td><td>?</td><td>?</td>
+</tr><tr><td>FindElementByValue</td><td>Core</td><td>Core</td><td>Default</td><td>Default</td><td>Default</td><td>Default</td><td>16</td><td>Default</td><td>37,852.3577 ns</td><td>800.2346 ns</td><td>2,217.4464 ns</td><td>37,355.7670 ns</td><td>?</td><td>?</td>
+</tr><tr><td>EqualityComparerInt32</td><td>DryCore</td><td>Core</td><td>Default</td><td>1</td><td>ColdStart</td><td>1</td><td>1</td><td>1</td><td>1,184,500.0000 ns</td><td>NA</td><td>0.0000 ns</td><td>1,184,500.0000 ns</td><td>?</td><td>?</td>
+</tr><tr><td>Time50</td><td>DryCore</td><td>Core</td><td>Default</td><td>1</td><td>ColdStart</td><td>1</td><td>1</td><td>1</td><td>51,910,900.0000 ns</td><td>NA</td><td>0.0000 ns</td><td>51,910,900.0000 ns</td><td>?</td><td>?</td>
+</tr><tr><td>Time100</td><td>DryCore</td><td>Core</td><td>Default</td><td>1</td><td>ColdStart</td><td>1</td><td>1</td><td>1</td><td>102,253,200.0000 ns</td><td>NA</td><td>0.0000 ns</td><td>102,253,200.0000 ns</td><td>1.00</td><td>0.00</td>
+</tr><tr><td>Time150</td><td>DryCore</td><td>Core</td><td>Default</td><td>1</td><td>ColdStart</td><td>1</td><td>1</td><td>1</td><td>153,009,500.0000 ns</td><td>NA</td><td>0.0000 ns</td><td>153,009,500.0000 ns</td><td>?</td><td>?</td>
+</tr><tr><td>AddByType</td><td>DryCore</td><td>Core</td><td>Default</td><td>1</td><td>ColdStart</td><td>1</td><td>1</td><td>1</td><td>54.3900 ns</td><td>NA</td><td>0.0000 ns</td><td>54.3900 ns</td><td>?</td><td>?</td>
+</tr><tr><td>AddByInType</td><td>DryCore</td><td>Core</td><td>Default</td><td>1</td><td>ColdStart</td><td>1</td><td>1</td><td>1</td><td>56.2900 ns</td><td>NA</td><td>0.0000 ns</td><td>56.2900 ns</td><td>?</td><td>?</td>
+</tr><tr><td>AddByRefType</td><td>DryCore</td><td>Core</td><td>Default</td><td>1</td><td>ColdStart</td><td>1</td><td>1</td><td>1</td><td>56.5600 ns</td><td>NA</td><td>0.0000 ns</td><td>56.5600 ns</td><td>?</td><td>?</td>
+</tr><tr><td>FindElementByRef</td><td>DryCore</td><td>Core</td><td>Default</td><td>1</td><td>ColdStart</td><td>1</td><td>1</td><td>1</td><td>897,500.0000 ns</td><td>NA</td><td>0.0000 ns</td><td>897,500.0000 ns</td><td>?</td><td>?</td>
+</tr><tr><td>FindElementByValue</td><td>DryCore</td><td>Core</td><td>Default</td><td>1</td><td>ColdStart</td><td>1</td><td>1</td><td>1</td><td>1,039,600.0000 ns</td><td>NA</td><td>0.0000 ns</td><td>1,039,600.0000 ns</td><td>?</td><td>?</td>
+</tr><tr><td>EqualityComparerInt32</td><td>Mono</td><td>Mono</td><td>Default</td><td>Default</td><td>Default</td><td>Default</td><td>16</td><td>Default</td><td>NA</td><td>NA</td><td>NA</td><td>NA</td><td>?</td><td>?</td>
+</tr><tr><td>Time50</td><td>Mono</td><td>Mono</td><td>Default</td><td>Default</td><td>Default</td><td>Default</td><td>16</td><td>Default</td><td>NA</td><td>NA</td><td>NA</td><td>NA</td><td>?</td><td>?</td>
+</tr><tr><td>Time100</td><td>Mono</td><td>Mono</td><td>Default</td><td>Default</td><td>Default</td><td>Default</td><td>16</td><td>Default</td><td>NA</td><td>NA</td><td>NA</td><td>NA</td><td>?</td><td>?</td>
+</tr><tr><td>Time150</td><td>Mono</td><td>Mono</td><td>Default</td><td>Default</td><td>Default</td><td>Default</td><td>16</td><td>Default</td><td>NA</td><td>NA</td><td>NA</td><td>NA</td><td>?</td><td>?</td>
 </tr><tr><td>AddByType</td><td>Mono</td><td>Mono</td><td>Default</td><td>Default</td><td>Default</td><td>Default</td><td>16</td><td>Default</td><td>NA</td><td>NA</td><td>NA</td><td>NA</td><td>?</td><td>?</td>
+</tr><tr><td>AddByInType</td><td>Mono</td><td>Mono</td><td>Default</td><td>Default</td><td>Default</td><td>Default</td><td>16</td><td>Default</td><td>NA</td><td>NA</td><td>NA</td><td>NA</td><td>?</td><td>?</td>
+</tr><tr><td>AddByRefType</td><td>Mono</td><td>Mono</td><td>Default</td><td>Default</td><td>Default</td><td>Default</td><td>16</td><td>Default</td><td>NA</td><td>NA</td><td>NA</td><td>NA</td><td>?</td><td>?</td>
+</tr><tr><td>FindElementByRef</td><td>Mono</td><td>Mono</td><td>Default</td><td>Default</td><td>Default</td><td>Default</td><td>16</td><td>Default</td><td>NA</td><td>NA</td><td>NA</td><td>NA</td><td>?</td><td>?</td>
+</tr><tr><td>FindElementByValue</td><td>Mono</td><td>Mono</td><td>Default</td><td>Default</td><td>Default</td><td>Default</td><td>16</td><td>Default</td><td>NA</td><td>NA</td><td>NA</td><td>NA</td><td>?</td><td>?</td>
 </tr></tbody></table>
 </body>
 </html>
