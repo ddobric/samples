@@ -38,9 +38,12 @@
                 string collectionName = ConfigurationManager.AppSettings["collection"];
 
                 SimpleSample sample = new SimpleSample(endpointUrl, primaryKey, databaseId, "Persons");
-                //sample.RunNative().Wait();
-                sample.RunApi().Wait();
+                sample.RunNative().Wait();
+                //sample.RunApi().Wait();
 
+                Console.WriteLine("Press any key to exit...");
+                Console.ReadLine();
+                return;
                 // try syncing the settings from App.Config to the GraphExplorer's appsettings.json file
                 TryUpdateGraphExplorerSettings(endpointUrl, primaryKey, databaseId).Wait();
 

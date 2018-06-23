@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Runtime.InteropServices;
 
 namespace RefSemantic.Samples
@@ -18,7 +20,8 @@ namespace RefSemantic.Samples
             SpanSample3();
             SpanSample4();
 
-            Console.WriteLine("Hello World!");
+            Console.WriteLine("Press any key to exit");
+            Console.ReadLine();
         }
 
 
@@ -81,8 +84,10 @@ namespace RefSemantic.Samples
             try
             {
                 Span<byte> bytes;
-                unsafe { bytes = new Span<byte>((byte*)ptr, 1); }
-                bytes[0] = 42;
+                unsafe { bytes = new Span<byte>((byte*)ptr, 3 ); }
+                bytes[0] = 0xFF;
+                bytes[1] = 0xAA;
+                bytes[2] = 0xBB;
                 Console.WriteLine($"bytes[0] {bytes[0]} == {Marshal.ReadByte(ptr)}");
 
                 //bytes[1] = 43; // Throws IndexOutOfRangeException
@@ -107,7 +112,7 @@ namespace RefSemantic.Samples
 
             #region Solution with Span
 
-            Span<MyStruct> spanOfStructs = new MyStruct[1];
+            Span<MyStruct> spanOfStructs = new MyStruct[10];
 
             spanOfStructs[0].X = 42;
 
@@ -138,8 +143,11 @@ namespace RefSemantic.Samples
         {
             string str = "hello, world";
             string worldString = str.Substring(startIndex: 7, length: 5); // Allocates ReadOnlySpan<char> 
+
             var worldSpan = str.AsSpan().Slice(start: 7, length: 5); // No allocation
+
             Console.WriteLine(worldSpan[0]);
+            
             //worldSpan[0] = 'a'; // Error CS0200: indexer cannot be assigned to
         }
 
@@ -147,17 +155,37 @@ namespace RefSemantic.Samples
                                                      new MyStruct { X = 2 },
                                                      new MyStruct { X = 3 } };
 
-       // private static Span<MyStruct> m_SpanList = new Span<MyStruct>(null);
+
 
         public static void ReturnRefSample1()
         {
-            var res = getElement(1);
+            ref var res = ref getElement(1);
             res.X = 77;
         }
 
         private static ref MyStruct getElement(int k)
         {
             return ref m_List[k];
+        }
+        #endregion
+
+        #region Compatibility Pack
+        private static string GetLoggingPath()
+        {
+            // Verify the code is running on Windows.
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                using (var key = Registry.CurrentUser.OpenSubKey(@"Software\Fabrikam\AssetManagement"))
+                {
+                    if (key?.GetValue("LoggingDirectoryPath") is string configuredPath)
+                        return configuredPath;
+                }
+            }
+
+            // This is either not running on Windows or no logging path was configured,
+            // so just use the path for non-roaming user-specific data files.
+            var appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+            return Path.Combine(appDataPath, "Fabrikam", "AssetManagement", "Logging");
         }
         #endregion
     }

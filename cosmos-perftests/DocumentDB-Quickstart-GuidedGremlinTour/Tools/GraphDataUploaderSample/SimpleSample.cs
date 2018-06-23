@@ -118,6 +118,7 @@ namespace GraphDataUploaderSample
                 }
                 Console.WriteLine();
             }
+                       
         }
 
 
@@ -150,8 +151,11 @@ namespace GraphDataUploaderSample
             await traceOut("Planets", graphCommand.g().V().HasLabel("planet"));
 
             //
-            // Enlist all persons
-            await traceOut("Satellites", graphCommand.g().V().HasLabel("person"));
+            // Enlist all satellites
+            await traceOut("Satellites", graphCommand.g().V().HasLabel("satellite"));
+
+            await traceOut("Satellites", graphCommand.g().V().Has("name", "PLANET P1").Out("followup").Out("followup").Values("name"));
+
         }
 
 

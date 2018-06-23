@@ -13,6 +13,7 @@ namespace Benchmarking
             BenchmarkRunner.Run<BenchmarkTests>();
 
             Console.WriteLine("Press any key to exit...");
+
             Console.ReadLine();
         }
     }

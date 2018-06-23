@@ -44,8 +44,8 @@ public class BenchmarkTests
 
     private static MyStruct[] m_Elements;
 
-    //[GlobalSetup]
-    static BenchmarkTests()
+    [GlobalSetup]
+    public void BenchmarkTestsSetup()
     {
         int num = 1000;
 
@@ -57,17 +57,6 @@ public class BenchmarkTests
         }
     }
 
-    [Benchmark]
-    public int EqualityComparerInt32()
-    {
-        int[] items = s_intArray;
-
-        for (int i = 0; i < items.Length; i++)
-            if (EqualityComparer<int>.Default.Equals(items[i], -1))
-                return i;
-
-        return -1;
-    }
 
     #region Time
 
@@ -80,6 +69,21 @@ public class BenchmarkTests
     [Benchmark]
     public void Time150() => Thread.Sleep(150);
     #endregion
+
+
+    [Benchmark]
+    public int EqualityComparerInt32New()
+    {
+        int[] items = s_intArray;
+
+        for (int i = 0; i < items.Length; i++)
+            if (EqualityComparer<int>.Default.Equals(items[i], -1))
+                return i;
+
+        return -1;
+    }
+
+
 
     #region RefTypes
     /// <summary>

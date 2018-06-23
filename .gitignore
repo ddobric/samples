@@ -211,3 +211,5 @@ GeneratedArtifacts/
 _Pvt_Extensions/
 ModelManifest.xml
 /cosmos-perftests/CosmosPerfTests/CosmosPerfTests/CredsBackup.cs
+/netcore21samples/RefSemantic.Samples/out
+/netcore21samples/RefSemantic.Samples/out-with-linker
