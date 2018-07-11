@@ -70,7 +70,6 @@ public class BenchmarkTests
     public void Time150() => Thread.Sleep(150);
     #endregion
 
-
     [Benchmark]
     public int EqualityComparerInt32New()
     {
@@ -151,7 +150,7 @@ public class BenchmarkTests
     }
     #endregion
 
-    #region Ref_By_Type
+    #region Return_Ref_By_Type
 
 
 

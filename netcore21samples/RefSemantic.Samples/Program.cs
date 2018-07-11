@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Threading;
 
 namespace RefSemantic.Samples
 {
@@ -80,11 +81,11 @@ namespace RefSemantic.Samples
         /// </summary>
         public static void SpanSample2()
         {
-            IntPtr ptr = Marshal.AllocHGlobal(1);
+            IntPtr ptr = Marshal.AllocHGlobal(3);
             try
             {
                 Span<byte> bytes;
-                unsafe { bytes = new Span<byte>((byte*)ptr, 3 ); }
+                unsafe { bytes = new Span<byte>((byte*)ptr, 3); }
                 bytes[0] = 0xFF;
                 bytes[1] = 0xAA;
                 bytes[2] = 0xBB;
@@ -97,7 +98,7 @@ namespace RefSemantic.Samples
 
         public static void SpanSample3()
         {
-            
+
             #region Element access in the List<>
 
             var listOfStructs = new List<MyStruct> { new MyStruct() };
@@ -112,7 +113,9 @@ namespace RefSemantic.Samples
 
             #region Solution with Span
 
-            Span<MyStruct> spanOfStructs = new MyStruct[10];
+            Span<MyStruct> spanOfStructs;
+            spanOfStructs = new MyStruct[10];
+            spanOfStructs = new Span<MyStruct>( new List <MyStruct> { new MyStruct() }.ToArray());
 
             spanOfStructs[0].X = 42;
 
@@ -137,7 +140,7 @@ namespace RefSemantic.Samples
 
 
         /// <summary>
-        /// Strings implementsd Span<string> now.
+        /// Strings implemented Span<string> now.
         /// </summary>
         public static void SpanSample4()
         {
@@ -147,7 +150,7 @@ namespace RefSemantic.Samples
             var worldSpan = str.AsSpan().Slice(start: 7, length: 5); // No allocation
 
             Console.WriteLine(worldSpan[0]);
-            
+
             //worldSpan[0] = 'a'; // Error CS0200: indexer cannot be assigned to
         }
 
@@ -159,8 +162,11 @@ namespace RefSemantic.Samples
 
         public static void ReturnRefSample1()
         {
-            ref var res = ref getElement(1);
-            res.X = 77;
+            var res1 = getElement(1);
+            res1.X = 77;
+
+            ref var res2 = ref getElement(1);
+            res2.X = 77;
         }
 
         private static ref MyStruct getElement(int k)
@@ -188,5 +194,12 @@ namespace RefSemantic.Samples
             return Path.Combine(appDataPath, "Fabrikam", "AssetManagement", "Logging");
         }
         #endregion
+
+        private static readonly CancellationToken m_Token = new CancellationTokenSource().Token;
+
+        public void StartRequest()
+        {
+            m_Token.Register(() => { }).Dispose();
+        }
     }
 }

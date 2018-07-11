@@ -2,7 +2,7 @@
   "profiles": {
     "CosmosPerfTests": {
       "commandName": "Project",
-      "commandLineArgs": "mongodb"
+      "commandLineArgs": "documentdb"
     }
   }
 }

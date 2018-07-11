@@ -4,6 +4,8 @@ using Microsoft.Rest;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
+using System.Runtime.Versioning;
 using System.Threading.Tasks;
 
 namespace eventgridpublisher
@@ -12,11 +14,21 @@ namespace eventgridpublisher
     {
         static void Main(string[] args)
         {
+            Console.ForegroundColor = ConsoleColor.Green;
+
+            AssemblyInformationalVersionAttribute version = Assembly
+            .GetEntryAssembly()?
+            .GetCustomAttribute(typeof(System.Reflection.AssemblyInformationalVersionAttribute)) as AssemblyInformationalVersionAttribute;
+           
+            Console.WriteLine($"Event Grid Publisher version {version.InformationalVersion}");
+
             if (args.Length != 5)
             {
-                Console.WriteLine($"Application required 4 arguments. key, topicHostName, eventDataFile, eventType.");
-                Console.WriteLine($"Example: eventgridpublisher 'm9Nc1uLYS38gX72Cdj/P6Dr4evqjmMQuwXi5NyDuTPY=' 'https://treining-eventgrid-topic.westeurope-1.eventgrid.azure.net/api/events' sampleevents event1.json 'eventgrid/training/event1' ");
-                Console.WriteLine($"Example: eventgridpublisher 'm9Nc1uLYS38gX72Cdj/P6Dr4evqjmMQuwXi5NyDuTPY=' 'https://treining-eventgrid-topic.westeurope-1.eventgrid.azure.net/api/events' sampleevents *.json 'eventgrid/training/event1' ");
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.WriteLine($"Application requires 5 arguments: key, topicHostName, eventFileFolder eventFileFilter, eventType.");
+                Console.WriteLine($"Example: eventgridpublisher '***' 'https://***.westeurope-1.eventgrid.azure.net/api/events' sampleevents event1.json 'eventgrid/training/event1' ");
+                Console.WriteLine($"Example: eventgridpublisher '***' 'https://***.westeurope-1.eventgrid.azure.net/api/events' sampleevents *.json 'eventgrid/training/event1' ");
+                Console.ResetColor();
                 return;
             }
 
@@ -26,7 +38,7 @@ namespace eventgridpublisher
         private static async Task sendEvent(string key, string topicHostName, string eventFileFolder, string eventFileFilter, string eventType)
         {
             List<string> eventData = new List<string>();
-            
+
             foreach (var file in Directory.GetFiles(eventFileFolder, eventFileFilter))
             {
                 using (StreamReader sw = new StreamReader(file))
@@ -35,24 +47,47 @@ namespace eventgridpublisher
                 }
             }
 
-            ServiceClientCredentials credentials = new TopicCredentials(key);
-            var client = new EventGridClient(credentials);
-
-            var events = new List<EventGridEvent>
+            if (eventData.Count > 0)
             {
-                new EventGridEvent()
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    Data = eventData,
-                    EventTime = DateTime.Now,
-                    EventType = eventType,
-                    Subject = eventType,
-                    DataVersion = "1.0"
-                }
-            };
+                Console.WriteLine($"Sending {eventData.Count} events.");
 
-         
-            await client.PublishEventsAsync(topicHostName, events);
+                ServiceClientCredentials credentials = new TopicCredentials(key);
+                var client = new EventGridClient(credentials);
+
+                var events = new List<EventGridEvent>
+                {
+                    new EventGridEvent()
+                    {
+                        Id = Guid.NewGuid().ToString(),
+                        Data = eventData,
+                        EventTime = DateTime.Now,
+                        EventType = eventType,
+                        Subject = eventType,
+                        DataVersion = "1.0"
+                    }
+                };
+
+                await client.PublishEventsAsync(topicHostName, events);
+
+                int i = 0;
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                foreach (var item in eventData)
+                {
+                    i++;
+                    Console.WriteLine($" ---------------- Event {i} ----------------");
+
+                    Console.WriteLine(item);
+
+                    Console.WriteLine("---------------------------------------------");
+                }
+
+                Console.ForegroundColor = ConsoleColor.Green;
+
+                Console.WriteLine("Events sent successfully.");
+            }
+            else
+                Console.WriteLine("No event file has been found.");
+          
         }
     }
 }

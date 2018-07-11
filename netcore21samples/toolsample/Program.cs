@@ -11,7 +11,6 @@ namespace toolsample
             Console.OutputEncoding = System.Text.Encoding.Unicode;
             Console.WriteLine((char)0x263A);
         }
-
     
     }
 }
