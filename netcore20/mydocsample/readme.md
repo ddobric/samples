@@ -106,3 +106,6 @@ sudo mv microsoft.gpg /etc/apt/trusted.gpg.d/microsoft.gpg
 sudo apt-get update
 
 sudo apt-get install dotnet-sdk-2.0.0
+
+## Run image with overwritting of default start command
+docker run -it --entrypoint bash imagename:tag
