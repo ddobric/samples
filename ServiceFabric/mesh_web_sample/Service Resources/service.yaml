@@ -1,0 +1,28 @@
+﻿## Service definition ##
+application:
+  schemaVersion: 1.0.0-preview1
+  name: MeshAppl
+  properties:
+    services:
+      - name: mesh_web_sample
+        properties:
+          description: mesh_web_sample description.
+          osType: Windows
+          codePackages:
+            - name: mesh_web_sample
+              image: meshwebsample:dev
+              endpoints:
+                - name: mesh_web_sampleListener
+                  port: 20009
+              environmentVariables:
+                - name: ASPNETCORE_URLS
+                  value: http://+:20009
+#                - name: ApplicationInsights:InstrumentationKey
+#                  value: "<Place AppInsights key here, or reference it via a secret>"
+              resources:
+                requests:
+                  cpu: 0.5
+                  memoryInGB: 1
+          replicaCount: 1
+          networkRefs:
+            - name: MeshApplNetwork

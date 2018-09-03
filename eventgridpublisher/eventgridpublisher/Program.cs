@@ -19,7 +19,7 @@ namespace eventgridpublisher
             AssemblyInformationalVersionAttribute version = Assembly
             .GetEntryAssembly()?
             .GetCustomAttribute(typeof(System.Reflection.AssemblyInformationalVersionAttribute)) as AssemblyInformationalVersionAttribute;
-           
+
             Console.WriteLine($"Event Grid Publisher version {version.InformationalVersion}");
 
             if (args.Length != 5)
@@ -87,7 +87,7 @@ namespace eventgridpublisher
             }
             else
                 Console.WriteLine("No event file has been found.");
-          
+
         }
     }
 }

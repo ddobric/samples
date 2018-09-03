@@ -1,0 +1,14 @@
+## Network definition ##
+network:
+  schemaVersion: 1.0.0-preview1
+  name: MeshApplNetwork
+  properties:
+    description: MeshApplNetwork description.
+    addressPrefix: 10.0.0.4/22
+    ingressConfig:
+      layer4:
+        - name: mesh_web_sampleIngress
+          publicPort: 20009
+          applicationName: MeshAppl
+          serviceName: mesh_web_sample
+          endpointName: mesh_web_sampleListener

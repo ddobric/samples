@@ -2,7 +2,7 @@
   "profiles": {
     "eventgridpublisher": {
       "commandName": "Project",
-      "commandLineArgs": "'m9Nc1uLYS38gX72Cdj/P6Dr4evqjmMQuwXi5NyDuTPY=' 'https://treining-eventgrid-topic.westeurope-1.eventgrid.azure.net/api/events' sampleevents '*.json' 'eventgrid/training/event1'"
+      "commandLineArgs": "'m9Nc1uLYS38gX72Cdj/P6Dr4evqjmMQuwXi5NyDuTPY=' 'https://treining-eventgrid-topic.westeurope-1.eventgrid.azure.net/api/events' sampleevents '*.json' 'eventgrid/training/event1' "
     }
   }
 }

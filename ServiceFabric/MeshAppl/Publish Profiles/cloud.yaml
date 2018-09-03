@@ -1,0 +1,18 @@
+## Visual Studio SFApp Publish Profile ##
+vsSFAppPublishProfile:
+  schemaVersion: 1.0.0-preview1
+resourceGroupName: RG-MESH-SAMPLES
+subscription:
+  id: 2d335f20-77b0-4a56-ac60-dc7018c9e5ee
+  name: MVP Sponsorship 1000$/Month 2018-2019
+  tenant: &o0
+    id: 3b0f78fd-01d5-4c43-a2ae-3a6f6b8cabe7
+    uniqueId: 8eb8368c-3528-4bf4-a462-7ee61c93899b
+location:
+  name: westeurope
+  displayName: West Europe
+containerRegistry:
+  serverName: damir.azurecr.io
+  userName: damir
+  resourceId: /subscriptions/2d335f20-77b0-4a56-ac60-dc7018c9e5ee/resourceGroups/DOCKERREGISTRY/providers/Microsoft.ContainerRegistry/registries/damir
+  tenant: *o0

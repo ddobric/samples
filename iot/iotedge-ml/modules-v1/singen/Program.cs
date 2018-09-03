@@ -93,6 +93,7 @@ namespace singen
 
             // Open a connection to the Edge runtime
             DeviceClient ioTHubModuleClient = DeviceClient.CreateFromConnectionString(connectionString, settings);
+
             await ioTHubModuleClient.OpenAsync();
 
             // Attach callback for Twin desired properties updates

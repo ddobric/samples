@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2042
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9B56FCB0-63B4-404F-8A09-42EF52B53347}") = "MeshAppl", "MeshAppl\MeshAppl.sfaproj", "{65344536-084C-4C39-BC22-AF6DCAA7C3A2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "mesh_web_sample", "mesh_web_sample\mesh_web_sample.csproj", "{95A6E6D9-D3AB-4D43-958E-FACBD641A8F8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Svc2", "Svc2\Svc2.csproj", "{027724F1-C36B-4E02-AC72-AB384F853625}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{65344536-084C-4C39-BC22-AF6DCAA7C3A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65344536-084C-4C39-BC22-AF6DCAA7C3A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65344536-084C-4C39-BC22-AF6DCAA7C3A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{65344536-084C-4C39-BC22-AF6DCAA7C3A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{95A6E6D9-D3AB-4D43-958E-FACBD641A8F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{95A6E6D9-D3AB-4D43-958E-FACBD641A8F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{95A6E6D9-D3AB-4D43-958E-FACBD641A8F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{95A6E6D9-D3AB-4D43-958E-FACBD641A8F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{027724F1-C36B-4E02-AC72-AB384F853625}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{027724F1-C36B-4E02-AC72-AB384F853625}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{027724F1-C36B-4E02-AC72-AB384F853625}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{027724F1-C36B-4E02-AC72-AB384F853625}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A4D06FAB-A071-4CDA-B4D4-47AA6D8FE939}
+	EndGlobalSection
+EndGlobal
