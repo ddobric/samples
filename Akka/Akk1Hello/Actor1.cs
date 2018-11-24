@@ -19,26 +19,37 @@ namespace Akk1Hello
             switch (message)
             {
                 case Message1 msg1:
+
+                    for (int i = 0; i < 10; i++)
+                    {
+                        Context.ActorOf(Props.Create(() => new Actor1($"Actor{i}")), $"NameActor-1-{i}{msg1.Id}");
+                        Sender.Tell(true);
+                    }
+
                     break;
 
                 case Message2 msg2:
-                    Sender.Tell(new { a = 1, b = 2 });
+                    for (int i = 0; i < 10; i++)
+                    {
+                        Context.ActorOf(Props.Create(() => new Actor2($"Actor{i}")), $"NameActor-2-{i}{msg2.Id}");
+                        Sender.Tell(true);
+                    }
                     break;
 
             }
 
-            Console.WriteLine($"OnReceive: {nameof(Actor1)} - {message}");
+            Console.WriteLine($"OnReceive: {Self} - {message}");
         }
 
         protected override void PreStart()
         {
-            Console.WriteLine($"PreStart: {nameof(Actor1)}");
+            Console.WriteLine($"PreStart: {Self}");
             base.PreStart();
         }
 
         protected override void PostStop()
         {
-            Console.WriteLine($"PostStop: {nameof(Actor1)}");
+            Console.WriteLine($"PostStop: {Self}");
             base.PostStop();
         }
     }

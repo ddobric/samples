@@ -32,33 +32,27 @@
             "settings": {
               "image": "mcr.microsoft.com/azureiotedge-hub:1.0",
               "createOptions": "{\"HostConfig\":{\"PortBindings\":{\"5671/tcp\":[{\"HostPort\":\"5671\"}], \"8883/tcp\":[{\"HostPort\":\"8883\"}],\"443/tcp\":[{\"HostPort\":\"443\"}]}}}"
-            },
-            "env": {
-              "OptimizeForPerformance": {
-                  "value": "false"
-              }
             }
           }
         },
         "modules": {
-        
-          "sinusgen": {
-            "version": "1.1",
+          "tempSensor": {
+            "version": "1.0",
             "type": "docker",
             "status": "running",
             "restartPolicy": "always",
             "settings": {
-              "image": "${MODULES.sinusgen.arm32v7}",
+              "image": "mcr.microsoft.com/azureiotedge-simulated-temperature-sensor:1.0",
               "createOptions": ""
             }
           },
-          "fncrecognizer": {
-            "version": "1.1",
+          "module1": {
+            "version": "1.0",
             "type": "docker",
             "status": "running",
             "restartPolicy": "always",
             "settings": {
-              "image": "${MODULES.fncrecognizer.arm32v7}",
+              "image": "${MODULES.module1.amd64}",
               "createOptions": ""
             }
           }
@@ -69,9 +63,8 @@
       "properties.desired": {
         "schemaVersion": "1.0",
         "routes": {
-          "sinusgenFncRecognizer": "FROM /messages/modules/sinusgen/outputs/output1 INTO BrokeredEndpoint(\"/modules/fncrecognizer/inputs/input1\")",
-          "fncrecognizerToIoTHub": "FROM /messages/modules/fncrecognizer/outputs/anomalyoutput INTO $upstream"       
-
+          "module1ToIoTHub": "FROM /messages/modules/module1/outputs/* INTO $upstream"
+          
         },
         "storeAndForwardConfiguration": {
           "timeToLiveSecs": 7200

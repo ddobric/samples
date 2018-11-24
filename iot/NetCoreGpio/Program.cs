@@ -16,13 +16,13 @@ namespace NetCoreGpio
             string token = CreateToken("daenethub.azure-devices.net/devices/pidevice", "iothubowner", "ylxkhcFOU8lWLTIG6W75vnEQpdG97corpQ5JUbNytSw=", 1000*86400);
 
             // Controlling hardware with GPIO
-            //GpioSample.RunAync(args).Wait();
+            GpioSample.RunAync(args).Wait();
 
-            // REading GPIO and sending telemetry to IoTHub
+            // Reading GPIO and sending telemetry to IoTHub
             //TelemetrySample.RunAync(args).Wait();
 
             // Invoking REST methods hosted on PI.
-            WebMethods.RunAync(args).Wait();
+            //WebMethods.RunAync(args).Wait();
         }
 
         private static string CreateToken(string resourceUri, string policyName, string key, int expiryInSeconds = 36000)
@@ -45,7 +45,7 @@ namespace NetCoreGpio
             return token;
         }
 
-        internal static string ConnStr = "todo";
+        internal static string ConnStr = "HostName=daenethub.azure-devices.net;DeviceId=pidevice;SharedAccessKey=uxAkhCncd/PSs2/GTKFqxL+R4aiApnO4FrsfNIPgfJQ=";
     }
 
 

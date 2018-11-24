@@ -6,5 +6,6 @@ namespace Akk1Hello
 {
     public class Message2
     {
+        public int Id { get; set; }
     }
 }

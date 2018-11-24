@@ -4,7 +4,7 @@
     "image": {
         "repository": "damir.azurecr.io/fncrecognizer",
         "tag": {
-            "version": "0.0.8",
+            "version": "0.0.10",
             "platforms": {
                 "amd64": "./Dockerfile.amd64", 
                 "amd64.debug": "./Dockerfile.amd64.debug",

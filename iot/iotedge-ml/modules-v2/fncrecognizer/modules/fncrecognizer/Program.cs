@@ -23,11 +23,15 @@ namespace fncrecognizer
         {
             Init().Wait();
 
+            Console.WriteLine("Waiting on messages...");
+
             // Wait until the app unloads or is cancelled
             var cts = new CancellationTokenSource();
             AssemblyLoadContext.Default.Unloading += (ctx) => cts.Cancel();
             Console.CancelKeyPress += (sender, cpe) => cts.Cancel();
             WhenCancelled(cts.Token).Wait();
+
+            Console.WriteLine("Exit.");
         }
 
         /// <summary>
@@ -57,7 +61,6 @@ namespace fncrecognizer
 
             // Register callback to be called when a message is received by the module
             await ioTHubModuleClient.SetInputMessageHandlerAsync("input1", PipeMessage, ioTHubModuleClient);
-
 
 
 #if !LOCAL_EXEC

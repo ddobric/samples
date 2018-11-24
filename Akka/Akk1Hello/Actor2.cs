@@ -13,22 +13,21 @@ namespace Akk1Hello
         {
             this.m_Name = name;
         }
-
-
+        
         protected override void OnReceive(object message)
         {
-            Console.WriteLine($"OnReceive: {nameof(Actor2)} - {message}");
+            Console.WriteLine($"OnReceive: {Self} - {message}");
         }
 
         protected override void PreStart()
         {
-            Console.WriteLine($"PreStart: {nameof(Actor2)}");
+            Console.WriteLine($"PreStart: {Self}");
             base.PreStart();
         }
 
         protected override void PostStop()
         {
-            Console.WriteLine($"PostStop: {nameof(Actor2)}");
+            Console.WriteLine($"PostStop: {Self}");
             base.PostStop();
         }
     }

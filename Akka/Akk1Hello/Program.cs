@@ -48,18 +48,32 @@ namespace Akk1Hello
                 {
                     List<IActorRef> actors = new List<IActorRef>();
 
-                    for (int i = 0; i < 10000; i++)
+                    for (int i = 0; i < 100; i++)
                     {
-                        actors.Add(system.ActorOf(Props.Create(() => new Actor1($"Actor{i}")), $"NameActor{i}"));
+                        actors.Add(system.ActorOf(Props.Create(() => new Actor1($"Actor{i}")), $"NameActor-ROOT-{i}"));
                     }
 
 
                     foreach (var actor in actors)
                     {
-                        for (int i = 0; i < 1000; i++)
+                        for (int i = 0; i < 100; i++)
                         {
-                            actor.Tell(new Message1());
-                            actor.Tell(new Message2());
+                            bool res1 = false;
+                            bool res2 = false;
+
+                            while (res1 == false)
+                            {
+                                res1 = await actor.Ask<bool>(new Message1() { Id = i });
+                                if (res1 == false)
+                                    Console.WriteLine($"Message not delivered Message1 - {i}");
+                            }
+
+                            while (res2 == false)
+                            {
+                                res2 = await actor.Ask<bool>(new Message2() { Id = i });
+                                if (res2 == false)
+                                    Console.WriteLine($"Message not delivered Message2 - {i}");
+                            }
                         }
                     }                   
                 }
