@@ -16,7 +16,7 @@ namespace Akk1Hello
         
         protected override void OnReceive(object message)
         {
-            Console.WriteLine($"OnReceive: {Self} - {message}");
+            Console.WriteLine($"Actor2 - OnReceive: {Self} - {message} - Sender : {Sender}");
         }
 
         protected override void PreStart()

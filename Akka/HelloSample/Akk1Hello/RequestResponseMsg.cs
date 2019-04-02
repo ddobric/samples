@@ -4,8 +4,8 @@ using System.Text;
 
 namespace Akk1Hello
 {
-    public class Message1
+    public class RequestResponseMsg
     {
-        public int Id { get; set; }
+       
     }
 }

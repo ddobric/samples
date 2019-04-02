@@ -11,9 +11,9 @@ namespace Akk1Hello
         {
             Console.WriteLine("Hello Actor Model!");
 
-            //sample1();
+            sample1();
 
-            sample2();
+            //sample2();
 
             Console.WriteLine("Press any key to continue...");
 
@@ -26,16 +26,28 @@ namespace Akk1Hello
             {
                 using (var system = ActorSystem.Create("system"))
                 {
-                    var actor1 = system.ActorOf(Props.Create(() => new Actor1("Actor1")), "Actor1");
-
                     var actor2 = system.ActorOf(Props.Create(() => new Actor2("Actor2")), "Actor2");
 
-                    actor1.Tell(new Message1());
+                    var actor1 = system.ActorOf(Props.Create(() => new Actor1("Actor1", actor2)), "Actor1");
 
-                    actor2.Tell(new Message2());
+                    actor1.Tell(new ReceiveAnDoNothingMsg() { Id = 1});
 
-                    var res = await actor1.Ask(new Message2());
+                    actor2.Tell("Message 1");
+
+                    actor2.Tell("Message 2");
+
+                    actor2.Tell("Message 3");
+
+                    var res = await actor1.Ask(new RequestResponseMsg());
+                    Console.WriteLine($"RESULT: {res}");
+
+                    actor1.Tell(new CreateChildActor() { NumOfActors = 10 });
+
+                    await Task.Delay(5000);
                 }
+
+                Console.ReadLine();
+
             }).Wait();
         }
 
@@ -50,33 +62,27 @@ namespace Akk1Hello
 
                     for (int i = 0; i < 100; i++)
                     {
-                        actors.Add(system.ActorOf(Props.Create(() => new Actor1($"Actor{i}")), $"NameActor-ROOT-{i}"));
+                        actors.Add(system.ActorOf(Props.Create(() => new Actor1($"Actor{i}", null)), $"NameActor-ROOT-{i}"));
                     }
 
 
                     foreach (var actor in actors)
                     {
                         for (int i = 0; i < 100; i++)
-                        {
-                            bool res1 = false;
-                            bool res2 = false;
+                        {                           
+                            bool res = false;
 
-                            while (res1 == false)
+                            while (res == false)
                             {
-                                res1 = await actor.Ask<bool>(new Message1() { Id = i });
-                                if (res1 == false)
-                                    Console.WriteLine($"Message not delivered Message1 - {i}");
-                            }
-
-                            while (res2 == false)
-                            {
-                                res2 = await actor.Ask<bool>(new Message2() { Id = i });
-                                if (res2 == false)
+                                res = await actor.Ask<bool>(new RequestResponseMsg() );
+                                if (res == false)
                                     Console.WriteLine($"Message not delivered Message2 - {i}");
                             }
                         }
                     }                   
                 }
+
+                Console.ReadLine();
             }).Wait();
         }
     }

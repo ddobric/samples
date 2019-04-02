@@ -4,8 +4,8 @@ using System.Text;
 
 namespace Akk1Hello
 {
-    public class Message2
+    public class CreateChildActor
     {
-        public int Id { get; set; }
+        public int NumOfActors { get; set; } = 1;
     }
 }
