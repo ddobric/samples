@@ -1,5 +1,4 @@
 ﻿using Microsoft.ML;
-using Microsoft.ML.Runtime.Api;
 using Microsoft.ML.Trainers;
 using Microsoft.ML.Transforms;
 using System;
@@ -7,7 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using System.Linq;
-using Microsoft.ML.Models;
+using Microsoft.ML.Data;
 
 namespace MLNet.Sample
 {

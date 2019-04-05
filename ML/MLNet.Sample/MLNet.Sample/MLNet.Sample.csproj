@@ -14,11 +14,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="SentimentSample.cs" />
+    <Compile Remove="TaxiFareSample.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="taxi fare data\taxifair-train.csv~RF5673d31.TMP" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.ML" Version="0.1.0" />
+    <None Include="SentimentSample.cs" />
+    <None Include="TaxiFareSample.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.ML" Version="0.10.0" />
   </ItemGroup>
 
   <ItemGroup>

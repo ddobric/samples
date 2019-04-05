@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  akkacluster:
+    image: ${DOCKER_REGISTRY-}akkacluster
+    build:
+      context: .
+      dockerfile: AkkaCluster/Dockerfile

@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.106
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SbManagementClient", "SbManagementClient\SbManagementClient.csproj", "{05C13817-CEF9-4D26-B36E-6BB41271B7C0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{05C13817-CEF9-4D26-B36E-6BB41271B7C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05C13817-CEF9-4D26-B36E-6BB41271B7C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05C13817-CEF9-4D26-B36E-6BB41271B7C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05C13817-CEF9-4D26-B36E-6BB41271B7C0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F1C689EE-189A-4EF9-8F75-CA624CB7FF48}
+	EndGlobalSection
+EndGlobal

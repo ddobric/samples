@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.421
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AkkaCluster", "AkkaCluster\AkkaCluster.csproj", "{D33AC50E-AD2C-41AB-937C-2A09EA7C3E86}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AkkaShared", "AkkaShared\AkkaShared.csproj", "{18F06EF3-078B-447F-96A2-F2AEB4E6B016}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AkkaClient", "AkkaClient\AkkaClient.csproj", "{F31FC952-685E-4428-BE7F-97E1D953456E}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{5FAB7216-06A7-4280-9563-6687D1853BAE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D33AC50E-AD2C-41AB-937C-2A09EA7C3E86}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D33AC50E-AD2C-41AB-937C-2A09EA7C3E86}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D33AC50E-AD2C-41AB-937C-2A09EA7C3E86}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D33AC50E-AD2C-41AB-937C-2A09EA7C3E86}.Release|Any CPU.Build.0 = Release|Any CPU
+		{18F06EF3-078B-447F-96A2-F2AEB4E6B016}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{18F06EF3-078B-447F-96A2-F2AEB4E6B016}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{18F06EF3-078B-447F-96A2-F2AEB4E6B016}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{18F06EF3-078B-447F-96A2-F2AEB4E6B016}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F31FC952-685E-4428-BE7F-97E1D953456E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F31FC952-685E-4428-BE7F-97E1D953456E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F31FC952-685E-4428-BE7F-97E1D953456E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F31FC952-685E-4428-BE7F-97E1D953456E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5FAB7216-06A7-4280-9563-6687D1853BAE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5FAB7216-06A7-4280-9563-6687D1853BAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5FAB7216-06A7-4280-9563-6687D1853BAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5FAB7216-06A7-4280-9563-6687D1853BAE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BEFD2883-1372-4041-A997-3D6338046F4E}
+	EndGlobalSection
+EndGlobal
