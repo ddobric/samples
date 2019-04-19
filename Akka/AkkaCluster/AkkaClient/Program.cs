@@ -4,6 +4,7 @@ using Akka.Configuration;
 using AkkaShared.Shared;
 using Akka.Remote;
 using System.Collections.Generic;
+using System.Reflection;
 
 namespace AkkaClient.Deployer
 {
@@ -12,6 +13,9 @@ namespace AkkaClient.Deployer
 
         static void Main(string[] args)
         {
+            var r = typeof(Actor2).Assembly.FullName;
+            var assembly = Assembly.Load(new AssemblyName("AkkaShared, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"));
+
             Console.ForegroundColor = ConsoleColor.Yellow;
 
             Console.WriteLine("Client running...");
@@ -48,10 +52,14 @@ namespace AkkaClient.Deployer
                             .WithDeploy(Deploy.None.WithScope(new RemoteScope(remoteAddress))), "remoteactor2-code");
 
                 var actor1 = system.ActorOf(Props.Create(() => new Actor1(new List<IActorRef>() { remoteEcho1, remoteEcho2 })), "startactor");
-               
+
                 //var sum = actor1.Ask(new StartCalcMsg() { SumFrom = 0, SumTo = 10000 });
 
-                var sum = system.ActorSelection("/user/startactor").Ask<double>(
+                var sel = system.ActorSelection("/user/startactor");
+
+                var res = sel.ResolveOne(TimeSpan.FromSeconds(1)).Result;
+
+                var sum = sel.Ask<double>(
                 new StartCalcMsg()
                 {
                     SumFrom = 0, SumTo = 1000000000

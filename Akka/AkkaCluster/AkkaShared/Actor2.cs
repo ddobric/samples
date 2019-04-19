@@ -10,6 +10,8 @@ namespace AkkaShared.Shared
     {  
         public Actor2()
         {
+
+
             Receive<StartCalcMsg>(msg =>
             {
                 double sum = 0;

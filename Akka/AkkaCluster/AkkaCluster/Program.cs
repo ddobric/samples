@@ -1,6 +1,7 @@
 ﻿using Akka.Actor;
 using Akka.Configuration;
 using System;
+using System.Reflection;
 using System.Runtime.Loader;
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,6 +13,8 @@ namespace AkkaCluster
        
         static void Main(string[] args)
         {
+            var assembly = Assembly.Load(new AssemblyName("AkkaShared, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"));
+
             Console.ForegroundColor = ConsoleColor.Cyan;
 
             Console.WriteLine("Cluster running...");
