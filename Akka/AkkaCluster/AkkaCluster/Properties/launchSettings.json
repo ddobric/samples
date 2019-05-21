@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "AkkaCluster": {
+      "commandName": "Project",
+      "commandLineArgs": "--AKKAPORT 8089 --AKKAPUBLICHOST localhost --AKKASEEDHOSTS localhost:8089"
+    }
+  }
+}

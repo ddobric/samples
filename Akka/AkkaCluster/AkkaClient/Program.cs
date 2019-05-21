@@ -43,15 +43,15 @@ namespace AkkaClient.Deployer
                 
 
                 // Deploy actor to remote process via config
-                var remoteEcho1 = system.ActorOf(Props.Create(() => new Actor2()), "remoteactor2-config");
+                var remoteActor11 = system.ActorOf(Props.Create(() => new Actor2()), "remoteactor2-config");
 
                 // Deploy actor to remote process via code
-                var remoteEcho2 =
+                var remoteActor12 =
                     system.ActorOf(
                         Props.Create(() => new Actor2())
                             .WithDeploy(Deploy.None.WithScope(new RemoteScope(remoteAddress))), "remoteactor2-code");
 
-                var actor1 = system.ActorOf(Props.Create(() => new Actor1(new List<IActorRef>() { remoteEcho1, remoteEcho2 })), "startactor");
+                var actor1 = system.ActorOf(Props.Create(() => new Actor1(new List<IActorRef>() { remoteActor11, remoteActor12 })), "startactor");
 
                 //var sum = actor1.Ask(new StartCalcMsg() { SumFrom = 0, SumTo = 10000 });
 
@@ -60,10 +60,10 @@ namespace AkkaClient.Deployer
                 var res = sel.ResolveOne(TimeSpan.FromSeconds(1)).Result;
 
                 var sum = sel.Ask<double>(
-                new StartCalcMsg()
-                {
-                    SumFrom = 0, SumTo = 1000000000
-                }).Result;
+                    new StartCalcMsg()
+                    {
+                        SumFrom = 0, SumTo = 1000000000
+                    }).Result;
 
                 Console.WriteLine($"Calculation ended with sum = {sum}");
 

@@ -1,44 +1,94 @@
 ﻿using Akka.Actor;
 using Akka.Configuration;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Reflection;
 using System.Runtime.Loader;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Linq;
+
 
 namespace AkkaCluster
 {
     class Program
     {
-       
+       /// <summary>
+       /// --AKKAPORT 8089 --AKKAPUBLICHOST localhost --AKKASEEDHOST localhost:8089
+       /// </summary>
+       /// <param name="args"></param>
         static void Main(string[] args)
         {
+            var builder = new ConfigurationBuilder();
+            builder.AddEnvironmentVariables();
+            builder.AddCommandLine(args);
+
+            IConfigurationRoot netConfig = builder.Build();
+
             var assembly = Assembly.Load(new AssemblyName("AkkaShared, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"));
 
             Console.ForegroundColor = ConsoleColor.Cyan;
 
             Console.WriteLine("Cluster running...");
 
-            int defaultPort = 8090;
+            int port = 8090;
+            string publicHostname = "localhost";
+            string seedhostsStr = String.Empty;
+
+            if (netConfig["AKKAPORT"] != null)
+                int.TryParse(netConfig["AKKAPORT"], out port);
+
+            if (netConfig["AKKAPUBLICHOST"] != null)
+                publicHostname = netConfig["AKKAPUBLICHOST"];
+
+            if (netConfig["AKKASEEDHOSTS"] != null)
+            {
+                seedhostsStr = netConfig["AKKASEEDHOSTS"];
+            }
 
             string config = @"
                 akka {
-                actor.provider = ""Akka.Remote.RemoteActorRefProvider, Akka.Remote""
+                    actor.provider = ""Akka.Remote.RemoteActorRefProvider, Akka.Remote""
                     remote {
-                    helios.tcp {
-                        port = @PORT
-                            public-hostname = localhost
-                            hostname = 0.0.0.0
-                        }
-                }
+                        helios.tcp {
+                            port = @PORT
+                                public-hostname = @PUBLICHOSTNAME
+                                hostname = 0.0.0.0
+                            }
+                    }
+                    cluster {
+                        seed-nodes = [@SEEDHOST]
+                    }
             }";
-
-            if (args.Length != 0)
+         
+            config = config.Replace("@PORT", port.ToString());
+            config = config.Replace("@PUBLICHOSTNAME", publicHostname);
+            
+            if (seedhostsStr.Length > 0)
             {
-                int.TryParse(args[0], out defaultPort);
-            }
+                var seedHosts = seedhostsStr.Split(',');
+                seedHosts = seedHosts.Select(h => h.TrimStart(' ').TrimEnd(' ')).ToArray();
+                StringBuilder sb = new StringBuilder();
+                bool isFirst = true;
 
-            config = config.Replace("@PORT", defaultPort.ToString());
+                foreach (var item in seedHosts)
+                {
+                    if (isFirst == false)
+                        sb.Append(", ");
+
+                    sb.Append($"\"akka.tcp://DeployTarget@{item}\"");
+                    //example: seed - nodes = ["akka.tcp://ClusterSystem@localhost:8081"]
+
+                    isFirst = false;
+                }
+
+                config = config.Replace("@SEEDHOST", sb.ToString());
+            }
+            else
+                config = config.Replace("@SEEDHOST", String.Empty);
+
+            Console.WriteLine(config);
 
             using (var system = ActorSystem.Create("DeployTarget", ConfigurationFactory.ParseString(config)))
             {

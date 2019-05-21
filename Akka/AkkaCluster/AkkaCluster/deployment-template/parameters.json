@@ -1,0 +1,66 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "containerName": {
+            "value": "akk-sum-cluster-1"
+        },
+        "location": {
+            "value": "westeurope"
+        },
+        "imageType": {
+            "value": "Private"
+        },
+        "imageName": {
+            "value": "damir.azurecr.io/akka-sum-cluster:v1"
+        },
+        "osType": {
+            "value": "Linux"
+        },
+        "numberCpuCores": {
+            "value": "1"
+        },
+        "memory": {
+            "value": "1.5"
+        },
+        "restartPolicy": {
+            "value": "OnFailure"
+        },
+        "imageRegistryLoginServer": {
+            "value": "damir.azurecr.io"
+        },
+        "imageUsername": {
+            "value": "damir"
+        },
+        "imagePassword": {
+            "value": "kkjOvM=J/sEyYTBW6TFltwuV5qXkVH70"
+        },
+        "ipAddressType": {
+            "value": "Public"
+        },
+        "ports": {
+            "value": [
+                {
+                    "port": "8090",
+                    "protocol": "TCP"
+                }
+            ]
+        },
+        "environmentVariables": {
+            "value": [
+                {
+                    "name": "AKKAPORT",
+                    "value": "8090"
+                },
+                {
+                    "name": "AKKASEEDHOSTS",
+                    "value": "akk-sum-cluster-1.westeurope.azurecontainer.io:8090"
+                },
+                {
+                    "name": "AKKAPUBLICHOST",
+                    "value": "akk-sum-cluster-1.westeurope.azurecontainer.io:8090"
+                }
+            ]
+        }
+    }
+}
