@@ -6,6 +6,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="deployment-template\**" />
+    <EmbeddedResource Remove="deployment-template\**" />
+    <None Remove="deployment-template\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Akka.Remote" Version="1.3.12" />
     <PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="3.0.0-preview5.19227.9" />
     <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="3.0.0-preview5.19227.9" />

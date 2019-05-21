@@ -32,7 +32,7 @@ namespace AkkaCluster
 
             Console.WriteLine("Cluster running...");
 
-            int port = 8090;
+            int port = 8089;
             string publicHostname = "localhost";
             string seedhostsStr = String.Empty;
 

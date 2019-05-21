@@ -13,6 +13,9 @@ namespace AkkaClient.Deployer
 
         static void Main(string[] args)
         {
+            string host = "akka-sum-host1.westeurope.azurecontainer.io";
+            //string host = "localhost";
+
             var r = typeof(Actor2).Assembly.FullName;
             var assembly = Assembly.Load(new AssemblyName("AkkaShared, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"));
 
@@ -26,7 +29,7 @@ namespace AkkaClient.Deployer
                         provider = ""Akka.Remote.RemoteActorRefProvider, Akka.Remote""
                         deployment {
                             /remoteactor2-config {
-                                remote = ""akka.tcp://DeployTarget@localhost:8090""
+                                remote = ""akka.tcp://DeployTarget@akka-sum-host1.westeurope.azurecontainer.io:8089""
                             }
                         }
                     }
@@ -38,10 +41,9 @@ namespace AkkaClient.Deployer
                     }
                 }")))
             {
-                var remoteAddress = Address.Parse("akka.tcp://DeployTarget@localhost:8090");
-                //var remoteAddress = Address.Parse("akka.tcp://DeployTarget@localhost:35283");
-                
+                var remoteAddress = Address.Parse($"akka.tcp://DeployTarget@{host}:8089");
 
+                #if DEMO
                 // Deploy actor to remote process via config
                 var remoteActor11 = system.ActorOf(Props.Create(() => new Actor2()), "remoteactor2-config");
 
@@ -50,6 +52,21 @@ namespace AkkaClient.Deployer
                     system.ActorOf(
                         Props.Create(() => new Actor2())
                             .WithDeploy(Deploy.None.WithScope(new RemoteScope(remoteAddress))), "remoteactor2-code");
+                #else
+                
+                var remoteAddress1 = Address.Parse($"akka.tcp://DeployTarget@akka-sum-host1.westeurope.azurecontainer.io:8089");
+                var remoteAddress2 = Address.Parse($"akka.tcp://DeployTarget@akka-sum-host2.westeurope.azurecontainer.io:8089");
+
+                var remoteActor11 =
+                  system.ActorOf(
+                      Props.Create(() => new Actor2())
+                          .WithDeploy(Deploy.None.WithScope(new RemoteScope(remoteAddress1))), "remoteactor21-code");
+
+                var remoteActor12 =
+                 system.ActorOf(
+                     Props.Create(() => new Actor2())
+                         .WithDeploy(Deploy.None.WithScope(new RemoteScope(remoteAddress1))), "remoteactor22-code");
+                #endif
 
                 var actor1 = system.ActorOf(Props.Create(() => new Actor1(new List<IActorRef>() { remoteActor11, remoteActor12 })), "startactor");
 
