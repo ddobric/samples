@@ -30,9 +30,9 @@ namespace Akk1Hello
 
                     var actor1 = system.ActorOf(Props.Create(() => new Actor1("Actor1", actor2)), "Actor1");
 
-                    //actor1.Tell(new ReceiveAnDoNothingMsg() { Id = 1});
+                    actor1.Tell(new ReceiveAnDoNothingMsg() { Id = 1});
 
-                    //actor2.Tell("Message 1");
+                    actor2.Tell("Message 1");
 
                     //actor2.Tell("Message 2");
 
@@ -40,8 +40,9 @@ namespace Akk1Hello
 
                     //var res = await actor1.Ask(new RequestResponseMsg());
                     //Console.WriteLine($"RESULT: {res}");
+                    
 
-                    actor1.Tell(new CreateChildActor() { NumOfActors = 10 });
+                    //actor1.Tell(new CreateChildActor() { NumOfActors = 10 });
 
                     await Task.Delay(5000);
                 }
