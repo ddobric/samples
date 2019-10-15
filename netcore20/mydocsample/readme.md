@@ -72,6 +72,8 @@ cat /etc/*-release
 
 ### Run image with ssh
 docker run -ti --entrypoint /bin/sh YOUR_IMAGE
+or
+docker run -it --entrypoint=sh YOUR_IMAGE
 
 
 ### Install sudo
