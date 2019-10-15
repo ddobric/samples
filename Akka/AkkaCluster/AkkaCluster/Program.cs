@@ -51,15 +51,12 @@ namespace AkkaCluster
                 akka {
                     actor.provider = ""Akka.Remote.RemoteActorRefProvider, Akka.Remote""
                     remote {
-                        helios.tcp {
+                        dot-netty.tcp {
                             port = @PORT
                                 public-hostname = @PUBLICHOSTNAME
                                 hostname = 0.0.0.0
                             }
-                    }
-                    cluster {
-                        seed-nodes = [@SEEDHOST]
-                    }
+                    }                    
             }";
          
             config = config.Replace("@PORT", port.ToString());

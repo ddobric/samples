@@ -34,9 +34,9 @@ namespace Akk1Hello
 
                     actor2.Tell("Message 1");
 
-                    //actor2.Tell("Message 2");
+                    actor2.Tell("Message 2");
 
-                    //actor2.Tell("Message 3");
+                    actor2.Tell("Message 3");
 
                     //var res = await actor1.Ask(new RequestResponseMsg());
                     //Console.WriteLine($"RESULT: {res}");
@@ -44,7 +44,7 @@ namespace Akk1Hello
 
                     //actor1.Tell(new CreateChildActor() { NumOfActors = 10 });
 
-                    await Task.Delay(5000);
+                    //await Task.Delay(5000);
                 }
 
                 Console.ReadLine();

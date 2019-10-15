@@ -6,4 +6,14 @@
 
         public ulong SumTo { get; set; }
     }
+
+    public class LongRunningMsg
+    {
+        public long Time { get; set; }
+    }
+
+    public class SingleLongRunningMsg
+    {
+        public long Time { get; set; }
+    }
 }
